@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>English Flashcards</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ========================= -->
+    <!-- Sidebar -->
+    <!-- ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>English</h2>
+
+            <span>Flashcards</span>
+
+        </div>
+
+        <nav>
+
+            <button
+                id="menuPractice"
+                class="menuButton active">
+
+                📝 Practice
+
+            </button>
+
+            <button
+                id="menuAddWord"
+                class="menuButton">
+
+                ➕ Add Word
+
+            </button>
+
+        </nav>
+
+    </aside>
+
+    <!-- ========================= -->
+    <!-- Main -->
+    <!-- ========================= -->
+
+    <main class="mainContent">
+
+        <div class="container">
+
+            <!-- ========================= -->
+            <!-- Home -->
+            <!-- ========================= -->
+
+            <section id="pageCategories">
+
+                <h1>
+
+                    English Flashcards
+
+                </h1>
+
+                <div
+                    id="categories"
+                    class="grid">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ========================= -->
+            <!-- Stages -->
+            <!-- ========================= -->
+
+            <section
+                id="pageStages"
+                style="display:none;">
+
+                <div class="topbar">
+
+                    <button
+                        id="btnBackCategories"
+                        class="secondaryButton">
+
+                        ← Categories
+
+                    </button>
+
+                    <h2 id="categoryName">
+
+                    </h2>
+
+                </div>
+
+                <div class="summaryCard">
+
+                    <div class="summaryItem">
+
+                        <div class="summaryTitle">
+
+                            Total Words
+
+                        </div>
+
+                        <div
+                            id="totalWords"
+                            class="summaryValue">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+                    <div class="summaryItem">
+
+                        <div class="summaryTitle">
+
+                            Ready Today
+
+                        </div>
+
+                        <div
+                            id="readyWords"
+                            class="summaryValue">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+                    <div class="summaryItem">
+
+                        <div class="summaryTitle">
+
+                            Progress
+
+                        </div>
+
+                        <div
+                            id="progressPercent"
+                            class="summaryValue">
+
+                            0%
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="stages"
+                    class="grid">
+
+                </div>
+
+            </section>
+
+            <!-- ========================= -->
+            <!-- Study Page -->
+            <!-- ========================= -->
+
+            <section id="pageStudy" style="display:none;">
+
+                <div class="topbar">
+
+                    <button
+                        id="btnBackStages"
+                        class="secondaryButton">
+
+                        ← Stages
+
+                    </button>
+
+                    <span id="progress"></span>
+
+                </div>
+
+                <h2 id="studyTitle"></h2>
+
+                <div class="card">
+
+                    <div id="word"></div>
+
+                </div>
+
+                <div class="dictation">
+
+                    <input
+                        id="txtAnswer"
+                        type="text"
+                        autocomplete="off"
+                        spellcheck="false"
+                        placeholder="Type the word..."
+                    >
+
+                    <button id="btnCheck">
+
+                        Check
+
+                    </button>
+
+                </div>
+
+                <div id="result" class="result"></div>
+
+                <div id="correctWord" class="correctWord"></div>
+
+                <div
+                    id="reviewButtons"
+                    style="display:none;">
+
+                    <button id="btnKnow">
+
+                        ✅ بلدم
+
+                    </button>
+
+                    <button id="btnDontKnow">
+
+                        ❌ بلد نیستم
+
+                    </button>
+
+                    <button id="btnMaster">
+
+                        ⭐ مسلطم
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ========================= -->
+            <!-- Finish -->
+            <!-- ========================= -->
+
+            <section
+                id="pageFinish"
+                style="display:none;">
+
+                <div class="finish">
+
+                    <h1>
+
+                        🎉
+
+                    </h1>
+
+                    <h2>
+
+                        تمام لغت‌های این مرحله تمام شد.
+
+                    </h2>
+
+                    <button
+                        id="btnFinishBack"
+                        class="primaryButton">
+
+                        بازگشت
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ========================= -->
+            <!-- Add Word -->
+            <!-- ========================= -->
+
+            <section
+                id="pageAddWord"
+                style="display:none;">
+
+                <h1>
+
+                    Add Word
+
+                </h1>
+
+                <div class="card">
+
+                    <label>
+
+                        Category
+
+                    </label>
+
+                    <select id="cmbCategory">
+
+                    </select>
+
+                    <br><br>
+
+                    <label>
+
+                        Word
+
+                    </label>
+
+                    <input
+                        id="txtWord"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Enter a word">
+
+                    <br><br>
+
+                    <button
+                        id="btnSaveWord"
+                        class="primaryButton">
+
+                        Save
+
+                    </button>
+
+                    <div
+                        id="saveResult"
+                        class="mt16">
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
