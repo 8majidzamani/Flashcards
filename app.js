@@ -1946,19 +1946,15 @@ async function login(){
     });
 
 
-    if(result.success){
+if(result.success){
 
-        sessionStorage.setItem(
+    sessionStorage.setItem("logged","1");
 
-            "logged",
+    showApp();
 
-            "1"
+    loadCategories();
 
-        );
-
-        showApp();
-
-    }
+}
     else{
 
         loginMessage.innerHTML=
