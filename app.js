@@ -156,6 +156,24 @@ const cmbStatisticsMonth =
 document.getElementById("cmbStatisticsMonth");
 
 
+const loginPage =
+document.getElementById("loginPage");
+
+const appContainer =
+document.getElementById("appContainer");
+
+const txtUsername =
+document.getElementById("txtUsername");
+
+const txtPassword =
+document.getElementById("txtPassword");
+
+const btnLogin =
+document.getElementById("btnLogin");
+
+const loginMessage =
+document.getElementById("loginMessage");
+
 //======================================================
 // Helpers
 //======================================================
@@ -1894,3 +1912,91 @@ cmbStatisticsMonth.onchange=function(){
     renderHeatmap();
 
 };
+
+
+function showLogin(){
+
+    loginPage.style.display="flex";
+
+    appContainer.style.display="none";
+
+}
+
+
+function showApp(){
+
+    loginPage.style.display="none";
+
+    appContainer.style.display="block";
+
+}
+
+
+async function login(){
+
+    const result =
+    await post({
+
+        action:"login",
+
+        username:txtUsername.value,
+
+        password:txtPassword.value
+
+    });
+
+
+    if(result.success){
+
+        sessionStorage.setItem(
+
+            "logged",
+
+            "1"
+
+        );
+
+        showApp();
+
+    }
+    else{
+
+        loginMessage.innerHTML=
+
+            "Wrong username or password";
+
+    }
+
+}
+
+btnLogin.onclick = login;
+
+txtPassword.onkeydown=function(e){
+
+    if(e.key=="Enter")
+
+        login();
+
+};
+
+
+txtUsername.onkeydown=function(e){
+
+    if(e.key=="Enter")
+
+        login();
+
+};
+
+if(sessionStorage.getItem("logged")){
+
+    showApp();
+
+    loadCategories();
+
+}
+else{
+
+    showLogin();
+
+}
