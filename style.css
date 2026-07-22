@@ -1,677 +1,82 @@
-/* =========================================
-   CorpScale Design System v2
-========================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif:wght@600;700&display=swap');
+﻿/* =======================================================
+   Design System
+======================================================= */
 
 :root{
 
     --primary:#1E3A5F;
+    --primary-light:#2C5282;
+
     --secondary:#6B7280;
-    --blue:#2563EB;
+
+    --accent:#2563EB;
 
     --success:#16A34A;
-    --warning:#CA8A04;
+
     --danger:#DC2626;
 
+    --warning:#F59E0B;
+
     --background:#F8FAFC;
+
     --surface:#FFFFFF;
 
-    --border:#E2E8F0;
+    --border:#E5E7EB;
 
-    --shadow:0 1px 2px rgba(15,23,42,.04);
+    --text:#111827;
+
+    --text-light:#6B7280;
+
+    --radius:16px;
+
+    --shadow:
+        0 8px 30px rgba(0,0,0,.08);
 
 }
+
+
+/* =======================================================
+   Reset
+======================================================= */
 
 *{
 
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
 
 }
+
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
 
 body{
 
     background:var(--background);
 
-    font-family:'Inter',sans-serif;
+    color:var(--text);
 
-    color:#334155;
+    font-family:
 
-    font-size:14px;
+        Inter,
 
-}
+        "Segoe UI",
 
-.container{
-
-    width:100%;
-    max-width:1200px;
-
-    margin:auto;
-
-    padding:32px;
+        sans-serif;
 
 }
 
-h1{
 
-    font-family:'Noto Serif',serif;
-
-    font-size:30px;
-
-    color:var(--primary);
-
-    margin-bottom:24px;
-
-}
-
-h2{
-
-    font-family:'Noto Serif',serif;
-
-    font-size:24px;
-
-    color:var(--primary);
-
-    margin-bottom:20px;
-
-}
-
-button{
-
-    cursor:pointer;
-
-    transition:.15s;
-
-    border-radius:4px;
-
-    font-size:14px;
-
-    font-weight:500;
-
-}
-
-button:hover{
-
-    opacity:.92;
-
-}
-
-button:disabled{
-
-    opacity:.45;
-
-    cursor:not-allowed;
-
-}
-
-.primaryButton{
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-    padding:10px 18px;
-
-}
-
-.secondaryButton{
-
-    background:white;
-
-    color:var(--primary);
-
-    border:1px solid #CBD5E1;
-
-    padding:10px 18px;
-
-}
-
-.ghostButton{
-
-    background:transparent;
-
-    color:#475569;
-
-    border:none;
-
-    padding:10px 18px;
-
-}
-
-.topbar{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:24px;
-
-}
-
-.grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-
-    gap:16px;
-
-}
-
-.cardItem,
-
-.stageCard{
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:4px;
-
-    padding:16px;
-
-    box-shadow:var(--shadow);
-
-}
-
-.cardItem{
-
-    cursor:pointer;
-
-}
-
-.cardItem:hover{
-
-    border-color:#CBD5E1;
-
-}
-
-.stageTitle{
-
-    font-family:'Noto Serif',serif;
-
-    font-size:18px;
-
-    color:var(--primary);
-
-    margin-bottom:12px;
-
-}
-
-.stageCount{
-
-    color:#64748B;
-
-    line-height:24px;
-
-    margin-bottom:16px;
-
-}
-
-/* =========================================
-   Summary
-=========================================*/
-
-.summaryCard{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:16px;
-
-    margin-bottom:24px;
-
-}
-
-.summaryItem{
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:4px;
-
-    padding:16px;
-
-    box-shadow:var(--shadow);
-
-}
-
-.summaryTitle{
-
-    color:var(--secondary);
-
-    font-size:12px;
-
-    margin-bottom:8px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.4px;
-
-}
-
-.summaryValue{
-
-    font-family:"Noto Serif",serif;
-
-    font-size:26px;
-
-    color:var(--primary);
-
-    font-weight:bold;
-
-}
-
-
-
-/* =========================================
-   Stage Buttons
-=========================================*/
-
-.addButton{
-
-    width:100%;
-
-    height:36px;
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-}
-
-.addButton:hover{
-
-    background:#162D4A;
-
-}
-
-
-
-/* =========================================
-   Study Card
-=========================================*/
-
-.card{
-
-    background:white;
-
-    border:1px solid var(--border);
-
-    border-radius:4px;
-
-    padding:40px;
-
-    box-shadow:var(--shadow);
-
-    margin:30px 0;
-
-    text-align:center;
-
-}
-
-#progress{
-
-    color:var(--secondary);
-
-    margin-bottom:24px;
-
-    font-size:13px;
-
-}
-
-#word{
-
-    font-family:"Noto Serif",serif;
-
-    font-size:42px;
-
-    color:var(--primary);
-
-    margin-bottom:32px;
-
-}
-
-
-
-/* =========================================
-   Dictation
-=========================================*/
-
-.dictation{
-
-    display:flex;
-
-    gap:12px;
-
-    margin-bottom:24px;
-
-}
-
-#txtAnswer{
-
-    flex:1;
-
-    height:36px;
-
-    border:1px solid #CBD5E1;
-
-    padding:0 12px;
-
-    font-size:14px;
-
-    border-radius:4px;
-
-    outline:none;
-
-}
-
-#txtAnswer:hover{
-
-    border-color:#94A3B8;
-
-}
-
-#txtAnswer:focus{
-
-    border-color:var(--primary);
-
-    box-shadow:0 0 0 2px rgba(30,58,95,.12);
-
-}
-
-#btnCheck{
-
-    width:120px;
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-}
-
-
-
-/* =========================================
-   Result
-=========================================*/
-
-.result{
-
-    min-height:26px;
-
-    margin-top:16px;
-
-    font-weight:600;
-
-}
-
-.correct{
-
-    color:var(--success);
-
-}
-
-.incorrect{
-
-    color:var(--danger);
-
-}
-
-.correctWord{
-
-    margin-top:12px;
-
-    color:#475569;
-
-}
-
-
-/* =========================================
-   Review Buttons
-=========================================*/
-
-#reviewButtons{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:12px;
-
-    margin-top:24px;
-
-}
-
-#btnKnow{
-
-    background:var(--success);
-
-    color:#fff;
-
-    border:none;
-
-    height:36px;
-
-}
-
-#btnDontKnow{
-
-    background:var(--danger);
-
-    color:#fff;
-
-    border:none;
-
-    height:36px;
-
-}
-
-#btnMaster{
-
-    background:var(--primary);
-
-    color:#fff;
-
-    border:none;
-
-    height:36px;
-
-}
-
-#btnKnow:hover{
-
-    background:#15803D;
-
-}
-
-#btnDontKnow:hover{
-
-    background:#B91C1C;
-
-}
-
-#btnMaster:hover{
-
-    background:#162D4A;
-
-}
-
-
-
-/* =========================================
-   Finish Page
-=========================================*/
-
-.finish{
-
-    background:#fff;
-
-    border:1px solid var(--border);
-
-    border-radius:4px;
-
-    box-shadow:var(--shadow);
-
-    padding:48px;
-
-    text-align:center;
-
-}
-
-.finish h1{
-
-    margin-bottom:12px;
-
-}
-
-.finish h2{
-
-    margin-bottom:32px;
-
-}
-
-.finish button{
-
-    background:var(--primary);
-
-    color:#fff;
-
-    border:none;
-
-    height:36px;
-
-    padding:0 18px;
-
-}
-
-
-
-/* =========================================
-   Utilities
-=========================================*/
-
-.text-center{
-
-    text-align:center;
-
-}
-
-.mt8{
-
-    margin-top:8px;
-
-}
-
-.mt16{
-
-    margin-top:16px;
-
-}
-
-.mt24{
-
-    margin-top:24px;
-
-}
-
-.mb8{
-
-    margin-bottom:8px;
-
-}
-
-.mb16{
-
-    margin-bottom:16px;
-
-}
-
-.mb24{
-
-    margin-bottom:24px;
-
-}
-
-.hidden{
-
-    display:none !important;
-
-}
-
-
-
-/* =========================================
-   Responsive
-=========================================*/
-
-@media(max-width:900px){
-
-    .summaryCard{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-@media(max-width:700px){
-
-    .container{
-
-        padding:16px;
-
-    }
-
-    .dictation{
-
-        flex-direction:column;
-
-    }
-
-    #btnCheck{
-
-        width:100%;
-
-    }
-
-    #reviewButtons{
-
-        grid-template-columns:1fr;
-
-    }
-
-    #word{
-
-        font-size:34px;
-
-    }
-
-}
-
-
-
-/* =========================================
+/* =======================================================
    Layout
-=========================================*/
+======================================================= */
 
 .layout{
 
@@ -681,63 +86,46 @@ button:disabled{
 
 }
 
+
+/* =======================================================
+   Sidebar
+======================================================= */
+
 .sidebar{
 
-    width:230px;
+    width:240px;
 
-    background:#1E3A5F;
+    background:var(--primary);
 
     color:white;
-
-    padding:24px 16px;
 
     display:flex;
 
     flex-direction:column;
 
+    padding:24px;
+
+    gap:12px;
+
+    box-shadow:var(--shadow);
+
+    z-index:1000;
+
 }
+
 
 .logo{
 
-    margin-bottom:32px;
+    font-size:24px;
 
-}
+    font-weight:700;
 
-.logo h2{
-
-    color:white;
-
-    font-size:22px;
-
-    margin-bottom:4px;
-
-}
-
-.logo span{
-
-    color:#CBD5E1;
-
-    font-size:13px;
-
-}
-
-.mainContent{
-
-    flex:1;
+    margin-bottom:25px;
 
 }
 
 
-
-/* =========================================
-   Sidebar
-=========================================*/
-
-.menuButton{
-
-    width:100%;
-
-    height:40px;
+.menuItem{
 
     border:none;
 
@@ -747,103 +135,1679 @@ button:disabled{
 
     text-align:left;
 
-    padding:0 14px;
+    padding:14px 16px;
 
-    border-radius:4px;
+    border-radius:12px;
 
-    margin-bottom:8px;
+    cursor:pointer;
 
-    font-size:14px;
+    transition:.25s;
 
-}
-
-.menuButton:hover{
-
-    background:rgba(255,255,255,.08);
-
-}
-
-.menuButton.active{
-
-    background:white;
-
-    color:#1E3A5F;
+    font-size:16px;
 
 }
 
 
+.menuItem:hover{
 
-/* =========================================
-   Add Word
-=========================================*/
-
-#pageAddWord label{
-
-    display:block;
-
-    margin-bottom:6px;
-
-    font-weight:600;
-
-    color:#475569;
+    background:rgba(255,255,255,.12);
 
 }
 
-#cmbCategory{
 
-    width:100%;
+.menuItem.active{
 
-    height:36px;
+    background:var(--accent);
 
-    border:1px solid #CBD5E1;
+}
 
-    border-radius:4px;
 
-    padding:0 10px;
+/* =======================================================
+   Main
+======================================================= */
+
+.mainContent{
+
+    flex:1;
+
+    padding:35px;
+
+    overflow:auto;
+
+}
+
+
+/* =======================================================
+   Mobile Header
+======================================================= */
+
+.mobileHeader{
+
+    display:none;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-bottom:25px;
+
+}
+
+
+.menuButton{
+
+    width:46px;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+
+/* =======================================================
+   Titles
+======================================================= */
+
+h1{
+
+    font-size:34px;
+
+    margin-bottom:25px;
+
+}
+
+
+h2{
 
     margin-bottom:18px;
 
 }
 
-#txtWord{
+
+/* =======================================================
+   Topbar
+======================================================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    gap:15px;
+
+}
+
+
+.topbar button{
+
+    border:none;
+
+    background:var(--primary);
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.topbar button:hover{
+
+    background:var(--primary-light);
+
+}
+
+
+/* =======================================================
+   Summary
+======================================================= */
+
+.summaryCard{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(3,1fr);
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+
+.summaryItem{
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.summaryTitle{
+
+    color:var(--text-light);
+
+    margin-bottom:10px;
+
+}
+
+
+.summaryValue{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:var(--accent);
+
+}
+
+
+
+
+/* =======================================================
+   Grid
+======================================================= */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fill,minmax(260px,1fr));
+
+    gap:22px;
+
+}
+
+
+
+/* =======================================================
+   Category Card
+======================================================= */
+
+.cardItem{
+
+    background:var(--surface);
+
+    border-radius:var(--radius);
+
+    padding:28px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:var(--shadow);
+
+    border:1px solid var(--border);
+
+    font-size:20px;
+
+    font-weight:600;
+
+    text-align:center;
+
+}
+
+
+.cardItem:hover{
+
+    transform:translateY(-4px);
+
+    border-color:var(--accent);
+
+}
+
+
+
+/* =======================================================
+   Stage Card
+======================================================= */
+
+.stageCard{
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:24px;
+
+    box-shadow:var(--shadow);
+
+    border:1px solid var(--border);
+
+}
+
+
+.stageTitle{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+
+.stageCount{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+    margin-bottom:22px;
+
+}
+
+
+.addButton{
 
     width:100%;
 
-    height:36px;
+    border:none;
 
-    border:1px solid #CBD5E1;
+    border-radius:12px;
 
-    border-radius:4px;
+    padding:14px;
 
-    padding:0 10px;
+    cursor:pointer;
+
+    background:var(--accent);
+
+    color:white;
+
+    font-size:16px;
+
+    transition:.2s;
 
 }
 
-#cmbCategory:focus,
-#txtWord:focus{
+
+.addButton:hover{
+
+    opacity:.9;
+
+}
+
+
+
+/* =======================================================
+   Study Card
+======================================================= */
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    box-shadow:var(--shadow);
+
+    padding:50px;
+
+    margin:30px 0;
+
+    text-align:center;
+
+}
+
+
+#word{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+}
+
+
+
+/* =======================================================
+   Dictation
+======================================================= */
+
+.dictation{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:20px;
+
+}
+
+
+.dictation input{
+
+    flex:1;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:14px 16px;
+
+    font-size:18px;
 
     outline:none;
 
-    border-color:#1E3A5F;
+}
 
-    box-shadow:0 0 0 2px rgba(30,58,95,.12);
+
+.dictation input:focus{
+
+    border-color:var(--accent);
 
 }
+
+
+#btnCheck{
+
+    min-width:140px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#6d88bd;
+
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+
+
+/* =======================================================
+   Result
+======================================================= */
+
+.result{
+
+    text-align:center;
+
+    font-size:20px;
+
+    margin:20px 0;
+
+    min-height:28px;
+
+}
+
+
+.correct{
+
+    color:var(--success);
+
+}
+
+
+.incorrect{
+
+    color:var(--danger);
+
+}
+
+
+.correctWord{
+
+    text-align:center;
+
+    font-size:18px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+/* =======================================================
+   Review Buttons
+======================================================= */
+
+.reviewButtons{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:14px;
+
+}
+
+
+.reviewButtons button{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+}
+
+
+#btnKnow{
+
+    background:var(--success);
+
+}
+
+
+#btnDontKnow{
+
+    background:var(--danger);
+
+}
+
+
+#btnMaster{
+
+    background:var(--warning);
+
+}
+
+
+
+/* =======================================================
+   Finish Page
+======================================================= */
+
+.finish{
+
+    background:white;
+
+    border-radius:20px;
+
+    box-shadow:var(--shadow);
+
+    padding:60px;
+
+    text-align:center;
+
+}
+
+
+.finish h1{
+
+    font-size:70px;
+
+}
+
+
+.finish p{
+
+    color:var(--text-light);
+
+    margin:20px 0 30px;
+
+}
+
+
+#btnFinishBack{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px 26px;
+
+    cursor:pointer;
+
+    background:var(--accent);
+
+    color:white;
+
+}
+
+
+
+/* =======================================================
+   Add Word
+======================================================= */
+
+.addWordCard{
+
+    max-width:520px;
+
+    background:white;
+
+    border-radius:20px;
+
+    box-shadow:var(--shadow);
+
+    padding:30px;
+
+}
+
+
+.addWordCard label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+
+.addWordCard select,
+
+.addWordCard input{
+
+    width:100%;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:14px;
+
+    margin-bottom:20px;
+
+    font-size:16px;
+
+}
+
 
 #btnSaveWord{
 
-    margin-top:20px;
+    width:100%;
 
-    width:140px;
+    border:none;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    cursor:pointer;
+
+    background:var(--accent);
+
+    color:white;
+
+    font-size:16px;
 
 }
 
-#saveResult{
 
-    margin-top:16px;
+#saveMessage{
 
-    color:#16A34A;
+    margin-top:18px;
+
+    text-align:center;
 
     font-weight:600;
+
+}
+
+
+/* =======================================================
+   Overlay
+======================================================= */
+
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:none;
+
+    z-index:900;
+
+}
+
+
+/* =======================================================
+   Small Animations
+======================================================= */
+
+button{
+
+    transition:
+        background .2s,
+        transform .15s;
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+
+.cardItem,
+.stageCard,
+.summaryItem,
+.card,
+.addWordCard{
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+}
+
+.cardItem:hover,
+.stageCard:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+
+/* =======================================================
+   Mobile
+======================================================= */
+
+@media (max-width:768px){
+
+    .layout{
+
+        display:block;
+
+    }
+
+
+    /* Sidebar */
+
+    .sidebar{
+
+        position:fixed;
+
+        top:0;
+
+        right:-260px;
+
+        width:250px;
+
+        height:100vh;
+
+        transition:.3s;
+
+    }
+
+    .sidebar.open{
+
+        right:0;
+
+    }
+
+    .overlay.show{
+
+        display:block;
+
+    }
+
+
+    /* Header */
+
+    .mobileHeader{
+
+        display:flex;
+
+        position:sticky;
+
+        top:0;
+
+        z-index:100;
+
+        background:white;
+
+        padding:14px 0;
+
+        margin-bottom:20px;
+
+    }
+
+
+    .mainContent{
+
+        padding:18px;
+
+    }
+
+
+    /* Titles */
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+    h2{
+
+        font-size:22px;
+
+    }
+
+
+    /* Summary */
+
+    .summaryCard{
+
+        grid-template-columns:1fr;
+
+        gap:14px;
+
+    }
+
+
+    /* Grid */
+
+    .grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    /* Study Card */
+
+    .card{
+
+        padding:28px 18px;
+
+    }
+
+    #word{
+
+        font-size:34px;
+
+    }
+
+
+    /* Dictation */
+
+    .dictation{
+
+        flex-direction:column;
+
+    }
+
+    .dictation input{
+
+        width:100%;
+
+    }
+
+    #btnCheck{
+
+        width:100%;
+
+    }
+
+
+    /* Review Buttons */
+
+    .reviewButtons{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .reviewButtons button{
+
+        width:100%;
+
+    }
+
+
+    /* Topbar */
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .topbar button{
+
+        width:100%;
+
+    }
+
+    .topbar h2{
+
+        text-align:center;
+
+    }
+
+
+    /* Finish */
+
+    .finish{
+
+        padding:30px 18px;
+
+    }
+
+    .finish h1{
+
+        font-size:54px;
+
+    }
+
+
+    /* Add Word */
+
+    .addWordCard{
+
+        max-width:100%;
+
+        padding:22px;
+
+    }
+
+}
+
+
+/* =======================================================
+   Large Monitor
+======================================================= */
+
+@media (min-width:1600px){
+
+    .mainContent{
+
+        max-width:1500px;
+
+        margin:auto;
+
+    }
+
+}
+
+
+
+/*====================================
+Stage Card V2
+====================================*/
+
+.stageCard{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    margin-bottom:18px;
+
+    border:1px solid #e5e7eb;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.06);
+
+    transition:
+        .25s;
+
+}
+
+.stageCard:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.10);
+
+}
+
+.stageBadge{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    flex-shrink:0;
+
+}
+
+.stageContent{
+
+    flex:1;
+
+}
+
+.stageHeader{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+}
+
+.stageTitle{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+.stageSubtitle{
+
+    margin-top:5px;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+.stagePercent{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#2563eb;
+
+}
+
+
+
+
+.stageFooter{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:18px;
+
+    flex-wrap:wrap;
+
+    gap:14px;
+
+}
+
+.stageInfo{
+
+    color:#475569;
+
+    font-size:15px;
+
+}
+
+.stageInfo b{
+
+    margin-left:6px;
+
+    color:#111827;
+
+}
+
+
+
+.progressBar{
+
+    margin-top:18px;
+
+    height:10px;
+
+    background:#e5e7eb;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+.progressFill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    transition:width .5s;
+
+}
+
+
+
+.stageButton{
+
+    border:none;
+
+
+
+    color:#fff;
+
+    border-radius:10px;
+
+    padding:12px 22px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.2s;
+
+}
+
+.stageButton:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+.stage-source .stageBadge{
+
+    background:#94a3b8;
+
+}
+
+.stage-green .stageBadge{
+
+    background:#10b981;
+
+}
+
+.stage-blue .stageBadge{
+
+    background:#3b82f6;
+
+}
+
+.stage-purple .stageBadge{
+
+    background:#8b5cf6;
+
+}
+
+.stage-pink .stageBadge{
+
+    background:#ec4899;
+
+}
+
+.stage-orange .stageBadge{
+
+    background:#f97316;
+
+}
+
+.stage-gold .stageBadge{
+
+    background:#f59e0b;
+
+}
+
+
+
+@media(max-width:700px){
+
+.stageCard{
+
+    flex-direction:column;
+
+}
+
+.stageHeader{
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.stageFooter{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+}
+
+.stageButton{
+
+    width:100%;
+
+}
+
+}
+
+
+.stage-green{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#d1fae5
+);
+
+}
+
+
+.stage-blue{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#dbeafe
+);
+
+}
+
+
+.stage-purple{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#ede9fe
+);
+
+}
+
+
+.stage-pink{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#fce7f3
+);
+
+}
+
+
+.stage-orange{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#ffedd5
+);
+
+}
+
+
+
+.stage-gold{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#fef3c7
+);
+
+}
+
+
+
+.stage-source{
+
+background:
+linear-gradient(
+135deg,
+#ffffff 10%,
+#e5e7eb
+);
+
+}
+
+
+
+.sidebar{
+
+    width:250px;
+
+    transition:.3s;
+
+}
+
+
+.sidebarCollapsed .sidebar{
+
+    width:1px;
+
+}
+
+
+.logo{
+
+    white-space:nowrap;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.sidebarCollapsed .menuItem{
+
+    font-size:1px;
+
+}
+
+
+.sidebarCollapsed .menuItem{
+
+    justify-content:center;
+
+    padding:14px;
+
+}
+
+.sidebarCollapsed .logo{
+
+    font-size:10px;
+
+}
+
+.mainContent{
+
+    margin-left:250px;
+
+}
+
+.mainContent{
+
+    transition:.3s;
+
+}
+
+.sidebarCollapsed .mainContent{
+
+    margin-left:72px;
+
+}
+
+
+
+
+.stageButton.stage-source{
+    background:#94a3b8;
+}
+
+.stageButton.stage-green{
+    background:#10b981;
+}
+
+.stageButton.stage-blue{
+    background:#3b82f6;
+}
+
+.stageButton.stage-purple{
+    background:#8b5cf6;
+}
+
+.stageButton.stage-pink{
+    background:#ec4899;
+}
+
+.stageButton.stage-orange{
+    background:#f97316;
+}
+
+.stageButton.stage-gold{
+    background:#f59e0b;
+}
+
+
+
+
+/*=========================
+Loading
+=========================*/
+
+#loading{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(255,255,255,.45);
+
+    backdrop-filter:blur(2px);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:99999;
+
+}
+
+.loader{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    border:7px solid #e5e7eb;
+
+    border-top-color:#2563eb;
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+from{
+
+    transform:rotate(0);
+
+}
+
+to{
+
+    transform:rotate(360deg);
+
+}
+
+}
+
+
+/* =========================
+   Statistics
+========================= */
+
+.statisticsCard{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.08);
+
+    margin-top:20px;
+
+
+
+}
+
+#pageStatistics h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.heatmapCard{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+}
+
+
+#heatmapContainer{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+}
+
+
+.heatBox{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:6px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+
+.level0{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+
+.level1{
+
+    background:#bbf7d0;
+
+}
+
+
+.level2{
+
+    background:#4ade80;
+
+}
+
+
+.level3{
+
+    background:#16a34a;
+
+}
+
+
+.level4{
+
+    background:#166534;
+
+}
+
+
+.streakCard{
+
+    margin:20px 0;
+
+    background:linear-gradient(
+        135deg,
+        #ffedd5,
+        #fed7aa
+    );
+
+    border-radius:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    width:fit-content;
+
+}
+
+
+.streakIcon{
+
+    font-size:35px;
+
+}
+
+
+.streakTitle{
+
+    font-size:14px;
+
+    color:#7c2d12;
+
+}
+
+
+.streakValue{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    color:#ea580c;
+
+}
+
+
+
+
+.statisticsToolbar{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:20px 0;
+
+}
+
+
+.statisticsToolbar label{
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+
+.statisticsToolbar select{
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    border:1px solid #d1d5db;
+
+    background:white;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 }
