@@ -1846,14 +1846,18 @@ to{
 
     width:360px;
 
-    background:#fff;
+    background:rgba(255,255,255,.72);
+
+backdrop-filter:blur(22px);
+
+-webkit-backdrop-filter:blur(22px);
 
     border-radius:18px;
 
     padding:40px;
 
-    box-shadow:
-    0 20px 60px rgba(0,0,0,.25);
+   box-shadow:
+    0 15px 45px rgba(0,0,0,.10);
 
     text-align:center;
 
@@ -1973,5 +1977,209 @@ to{
     min-height:20px;
 
     font-size:14px;
+
+}
+
+
+/* ===========================
+   Login Page
+=========================== */
+
+#loginPage{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    background:#f7f8fc;
+
+}
+
+/* Gradient Background */
+
+#loginPage::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    left:-120px;
+    bottom:-120px;
+
+    background:#8fb7ff;
+
+    filter:blur(120px);
+
+    opacity:.65;
+
+    border-radius:50%;
+
+}
+
+#loginPage::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    right:-100px;
+    top:-80px;
+
+    background:#ff8db6;
+
+    filter:blur(120px);
+
+    opacity:.55;
+
+    border-radius:50%;
+
+}
+
+.loginCard{
+
+    position:relative;
+
+    z-index:2;
+
+    width:420px;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:45px;
+
+    box-shadow:
+
+        0 20px 60px rgba(0,0,0,.08);
+
+    text-align:center;
+
+}
+
+.loginLogo{
+
+    width:90px;
+
+    margin:auto;
+
+    margin-bottom:18px;
+
+}
+
+.loginCard h1{
+
+    color:#e43f83;
+
+    font-size:28px;
+
+    margin-bottom:10px;
+
+}
+
+.loginCard p{
+
+    color:#7b7b7b;
+
+    margin-bottom:30px;
+
+}
+
+.loginCard input{
+
+    width:100%;
+
+    height:54px;
+
+    border:1px solid #e3e3e3;
+
+    border-radius:14px;
+
+    padding:0 18px;
+
+    font-size:16px;
+
+    margin-bottom:18px;
+
+    transition:.25s;
+
+}
+
+.loginCard input:focus{
+
+    outline:none;
+
+    border-color:#e43f83;
+
+    box-shadow:
+
+        0 0 0 4px rgba(228,63,131,.15);
+
+}
+
+.loginCard button{
+
+    width:100%;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#e43f83;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.loginCard button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+        0 12px 30px rgba(228,63,131,.35);
+
+}
+
+#loginMessage{
+
+    margin-top:18px;
+
+    color:#d93025;
+
+    font-size:14px;
+
+}
+
+
+
+#loginPage{
+
+    background:
+        radial-gradient(circle at 15% 80%, #8fb7ff55, transparent 28%),
+        radial-gradient(circle at 90% 15%, #ff8db655, transparent 30%),
+        radial-gradient(circle at 80% 85%, #8be0ff55, transparent 25%),
+        #f7f8fc;
 
 }
