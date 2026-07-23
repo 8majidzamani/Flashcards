@@ -174,6 +174,20 @@ document.getElementById("btnLogin");
 const loginMessage =
 document.getElementById("loginMessage");
 
+
+
+const stageColors = [
+
+    "stage-gray",     // Source
+    "stage-green",    // Every Day
+    "stage-blue",
+    "stage-orange",
+    "stage-purple",
+    "stage-pink",
+    "stage-cyan"
+
+];
+
 //======================================================
 // Helpers
 //======================================================
@@ -507,7 +521,7 @@ function renderStages(){
 
         }
 
-
+const colorClass = stageColors[s.stage];
 
 const disabledClass =
 s.ready == 0
@@ -516,7 +530,7 @@ s.ready == 0
 
 stagesDiv.innerHTML += `
 
-<div class="stageCard ${disabledClass}">
+<div class="stageCard ${colorClass} ${disabledClass}">
 
             <div class="stageBadge">
 
