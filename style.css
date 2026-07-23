@@ -2183,3 +2183,36 @@ backdrop-filter:blur(22px);
         #f7f8fc;
 
 }
+
+
+.stageDisabled{
+
+    filter:grayscale(100%);
+
+    opacity:.55;
+
+    transition:.3s;
+
+}
+
+.stageDisabled:hover{
+
+    filter:grayscale(100%);
+
+    transform:none;
+
+}
+
+
+.stageDisabled button{
+
+    background:#8c8c8c !important;
+
+}
+
+
+.stageDisabled .stageNumber{
+
+    background:#777 !important;
+
+}

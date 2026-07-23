@@ -507,9 +507,16 @@ function renderStages(){
 
         }
 
-        stagesDiv.innerHTML += `
 
-        <div class="stageCard ${colors[s.stage]}">
+
+const disabledClass =
+s.ready == 0
+    ? "stageDisabled"
+    : "";
+
+stagesDiv.innerHTML += `
+
+<div class="stageCard ${disabledClass}">
 
             <div class="stageBadge">
 
@@ -1536,12 +1543,19 @@ heatmapCache.filter(item=>{
     const d =
     new Date(item.date);
 
-    const key =
-        d.getFullYear()
-        +
-        "-"
-        +
-        (d.getMonth()+1);
+    // const key =
+    //     d.getFullYear()
+    //     +
+    //     "-"
+    //     +
+    //     (d.getMonth()+1);
+    const shamsi =
+toJalali(d);
+
+const key =
+shamsi.jy +
+"-" +
+shamsi.jm;
 
     return key===selectedStatisticsMonth;
 
