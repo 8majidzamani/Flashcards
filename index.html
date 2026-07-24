@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head   >
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+rel="stylesheet">
 
 <meta charset="UTF-8">
 
@@ -17,45 +21,47 @@
 <body>
 
 <div id="loginPage">
+
+
 <div class="loginCard">
 
-    <h1>
+    
+    <span class="material-symbols-sharp material-icons">
+spellcheck
+</span>
 
-        📘 Flashcards
+    <h1>Flashcards</h1>
 
-    </h1>
-
-    <p>
-
-        Welcome Back
-
+    <p class="loginSubtitle">
+        Sign in to continue
     </p>
 
-
-    <input
-        id="txtUsername"
-        type="text"
-        placeholder="Username">
-
-
-    <input
-        id="txtPassword"
-        type="password"
-        placeholder="Password">
-
-
-    <button id="btnLogin">
-
-        Login
-
-    </button>
-
-
-    <div id="loginMessage">
-
+    <div class="inputGroup">
+        <input
+            id="txtUsername"
+            type="text"
+            placeholder=" ">
+        <label>Username</label>
     </div>
 
+    <div class="inputGroup">
+        <input
+            id="txtPassword"
+            type="password"
+            placeholder=" ">
+        <label>Password</label>
+    </div>
+
+    <button id="btnLogin">
+        Login
+    </button>
+
+    <div id="loginMessage"></div>
+
 </div>
+
+
+
 </div>
 
 <div id="appContainer"  style="display:none;" >
@@ -90,7 +96,15 @@
             class="menuItem active"
             id="menuPractice">
 
-            Practice
+
+
+           <span class="material-icons">
+school
+</span>
+
+<span class="menuText">
+Practice
+</span>
 
         </button>
 
@@ -98,7 +112,13 @@
             class="menuItem"
             id="menuAddWord">
 
-            Add Word
+            <span class="material-icons">
+add_circle
+</span>
+
+<span class="menuText">
+Add Word
+</span>
 
         </button>
 
@@ -106,7 +126,13 @@
             class="menuItem"
             id="menuStatistics">
 
-            Statistics
+            <span class="material-icons">
+bar_chart
+</span>
+
+<span class="menuText">
+Statistics
+</span>
 
         </button>
 
@@ -114,7 +140,13 @@
         class="menuItem"
         id="menuHeatmap">
 
-            Heatmap
+            <span class="material-icons">
+calendar_month
+</span>
+
+<span class="menuText">
+Heatmap
+</span>
 
         </button>
 
@@ -323,7 +355,7 @@
 
             </h2>
 
-            <div class="card">
+            <div class="card" id="wordCard">
 
                 <div id="word">
 
@@ -367,6 +399,11 @@
                 class="correctWord">
 
             </div>
+
+<div
+    id="compareResult"
+    class="spellCompare">
+</div>
 
             <div
                 id="reviewButtons"
@@ -469,23 +506,37 @@
                 </select>
 
 
-                <label>
+<label>
 
-                    Word
+    Front
 
-                </label>
+</label>
 
-                <input
+<input
 
-                    id="txtNewWord"
+    id="txtFront"
 
-                    type="text"
+    type="text"
 
-                    autocomplete="off"
+    placeholder="Front"
 
-                    placeholder="Enter a new word"
+>
 
-                >
+<label>
+
+    Back
+
+</label>
+
+<input
+
+    id="txtBack"
+
+    type="text"
+
+    placeholder="Back"
+
+>
 
 
                 <button
@@ -599,9 +650,6 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="app.js"></script>
-
 
 <!-- Loading -->
 
@@ -610,6 +658,14 @@
     <div class="loader"></div>
 
 </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+
+
+
 
 
 

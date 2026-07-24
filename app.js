@@ -1,5 +1,7 @@
 const API = "https://script.google.com/macros/s/AKfycbzYyagnuYNN8LpT2qrh_eeH6idxC0geYNYbFzt3xl-gTp9bp2pLtxt-tigoSm_CRjgX/exec";
 
+console.log("APP JS LOADED");
+
 //======================================================
 // Global State
 //======================================================
@@ -388,11 +390,13 @@ async function openCategory(category){
     showStagesPage();
 
     const response = await get(
+        
 
         "?action=categoryData&category=" +
         encodeURIComponent(category)
 
     );
+    console.log(response);
 
     if(!response.success){
 
@@ -679,11 +683,12 @@ document.getElementById("studyPath").innerHTML =
 
 async function saveWord(){
 
-    const word = txtNewWord.value.trim();
+    const front = txtFront.value.trim();
+    const back = txtBack.value.trim();
 
-    if(word==""){
+    if(front=="" || back==""){
 
-        alert("Please enter a word.");
+        alert("Please enter both Front and Back.");
 
         return;
 
@@ -694,12 +699,13 @@ async function saveWord(){
         "?action=saveWord" +
 
         "&category=" +
-
         encodeURIComponent(cmbCategory.value) +
 
-        "&word=" +
+        "&front=" +
+        encodeURIComponent(front) +
 
-        encodeURIComponent(word)
+        "&back=" +
+        encodeURIComponent(back)
 
     );
 
@@ -707,9 +713,10 @@ async function saveWord(){
 
         saveMessage.innerHTML = "✅ Saved.";
 
-        txtNewWord.value = "";
+        txtFront.value = "";
+        txtBack.value = "";
 
-        txtNewWord.focus();
+        txtFront.focus();
 
     }
     else{
@@ -720,12 +727,15 @@ async function saveWord(){
 
 }
 
-
 //======================================================
 // Show Word
 //======================================================
 
 function showWord(){
+    wordCard.classList.remove(
+    "cardCorrect",
+    "cardIncorrect"
+);
 
     if(currentIndex >= currentWords.length){
 
@@ -744,7 +754,7 @@ function showWord(){
         " / " +
         currentWords.length;
 
-    word.innerHTML = w.word;
+    word.innerHTML = w.Front;
 
     txtAnswer.value = "";
 
@@ -775,7 +785,7 @@ function checkAnswer(){
 
     const correct =
         currentWords[currentIndex]
-            .word
+            .Back
             .trim()
             .toLowerCase();
 
@@ -788,22 +798,34 @@ function checkAnswer(){
 
         correctWord.innerHTML = "";
 
+
+        wordCard.classList.remove("cardIncorrect");
+        wordCard.classList.add("cardCorrect");
+
     }
     else{
 
-        result.innerHTML = "❌ Incorrect";
+    result.innerHTML = "❌ Incorrect";
 
-        result.className =
-            "result incorrect";
+    result.className = "result incorrect";
 
-        correctWord.innerHTML =
-            "Correct Answer : <b>" +
-            currentWords[currentIndex].word +
-            "</b>";
+    compareResult.innerHTML =
 
-    }
+    buildCompare(
 
+        answer,
+
+        currentWords[currentIndex].Back
+
+    );
+
+    wordCard.classList.remove("cardCorrect");
+    wordCard.classList.add("cardIncorrect");
+
+}
     reviewButtons.style.display = "grid";
+
+
 
 }
 
@@ -977,6 +999,14 @@ async function finishStudy(){
 //======================================================
 
 function saveSession(){
+    console.log({
+    category: currentCategory,
+    stage: currentStage,
+    index: currentIndex
+});
+
+    if(!currentCategory || currentCategory.trim() == "")
+        return;
 
     sessionStorage.setItem(
 
@@ -1003,7 +1033,6 @@ function saveSession(){
 //======================================================
 // Restore Session
 //======================================================
-
 async function restoreSession(){
 
     const json =
@@ -1013,6 +1042,9 @@ async function restoreSession(){
         return;
 
     const s = JSON.parse(json);
+
+    if(!s.category || s.category.trim()=="")
+        return;
 
     currentCategory = s.category;
 
@@ -1024,7 +1056,7 @@ async function restoreSession(){
 
     currentWords =
         stageWords[currentStage]
-            .filter(w=>w.ready);
+        .filter(w=>w.ready);
 
     if(s.index < currentWords.length){
 
@@ -1195,20 +1227,24 @@ document.addEventListener(
 // Start
 //======================================================
 
-window.addEventListener(
+window.addEventListener("load", async function(){
 
-    "load",
+    if(sessionStorage.getItem("logged")){
 
-    async function(){
+        showApp();
 
         await loadCategories();
 
         await restoreSession();
 
     }
+    else{
 
-);
+        showLogin();
 
+    }
+
+});
 
 menuPractice.addEventListener("click",function(){
 
@@ -1221,6 +1257,7 @@ menuPractice.addEventListener("click",function(){
     menuPractice.classList.add("active");
 
     loadCategories();
+    closeSidebar();
 
 });
 
@@ -1236,6 +1273,7 @@ menuAddWord.addEventListener("click",function(){
     menuAddWord.classList.add("active");
 
     showAddWordPage();
+    closeSidebar();
 
 });
 
@@ -1251,6 +1289,7 @@ menuStatistics.addEventListener("click",function(){
     menuStatistics.classList.add("active");
 
     showStatisticsPage();
+    closeSidebar();
 
 });
 
@@ -1271,6 +1310,7 @@ menuHeatmap.addEventListener("click",()=>{
 
 
     showHeatmapPage();
+    closeSidebar();
 
 
 });
@@ -1294,7 +1334,17 @@ btnCollapse.onclick = function(){
 
 };
 
+function closeSidebar(){
 
+    console.log("Closing Sidebar...");
+
+    sidebar.classList.add("collapsed");
+
+    console.log(sidebar.className);
+
+    overlay.classList.remove("show");
+
+}
 
 function showLoading(){
 
@@ -1328,9 +1378,59 @@ async function loadStatistics(){
         const response =
             await get("?action=statistics");
 
-        statisticsCache =
-            response.data;
+        statisticsCache = response.data.map(item=>{
+
+
+function faToEn(str){
+
+    const map = {
+
+        '۰':'0',
+        '۱':'1',
+        '۲':'2',
+        '۳':'3',
+        '۴':'4',
+        '۵':'5',
+        '۶':'6',
+        '۷':'7',
+        '۸':'8',
+        '۹':'9'
+
+    };
+
+    return str.replace(/[۰-۹]/g, d => map[d]);
+
+}
+
+
+const shamsi =
+convertToShamsi(item.date);
+
+const parts =
+faToEn(shamsi).split("/");
+
+    return{
+
+        ...item,
+
+        shamsiYear:
+        Number(parts[0]),
+
+        shamsiMonth:
+        Number(parts[1]),
+
+        shamsiDay:
+        Number(parts[2]),
+
+        shamsi:
+        shamsi
+
+    };
+
+});
+console.log(statisticsCache[0]);
 loadStatisticsMonths();
+
     }
 
     renderStatistics();
@@ -1340,45 +1440,57 @@ loadStatisticsMonths();
 
 function renderStatistics(){
 
+
     const ctx =
     document
     .getElementById("statisticsChart")
     .getContext("2d");
 
-console.log("Original statistics:", statisticsCache);
 
+
+
+    console.log("Original statistics:", statisticsCache);
+
+//---
 const filteredData =
 statisticsCache.filter(item=>{
 
-    const d =
-    new Date(item.date);
-
     const key =
-    d.getFullYear()
-    +
-    "-"
-    +
-    (d.getMonth()+1);
+        item.shamsiYear +
+        "/" +
+        String(item.shamsiMonth).padStart(2,"0");
 
-    return key===selectedStatisticsMonth;
+    return key == selectedStatisticsMonth;
 
 });
 
-
-    // const chartData =
-    // fillMissingDays(filteredData);
-    const parts =
-selectedStatisticsMonth.split("-");
-
+  const parts =
+selectedStatisticsMonth.split("/");
 const chartData =
-fillMissingDays(
+fillMissingShamsiChartDays(
     filteredData,
     Number(parts[0]),
-    Number(parts[1]) - 1
+    Number(parts[1])
 );
+console.log("selected month:", selectedStatisticsMonth);
+console.log("filteredData:", filteredData);
+console.log("chartData:", chartData);
 
 const labels =
-chartData.map(x=>convertToShamsiDay(x.date));
+chartData.map(x=>String(x.date));
+
+
+
+  
+
+// const chartData =
+// fillMissingDays(
+//     filteredData,
+//     Number(parts[0]),
+//     Number(parts[1]) - 1
+// );
+
+
 
 
 const values =
@@ -1543,6 +1655,11 @@ async function loadHeatmap(){
 
 function renderHeatmap(){
 
+console.log("selectedStatisticsMonth =", selectedStatisticsMonth);
+
+console.log("heatmapCache =", heatmapCache);
+
+
 
     const container =
     document.getElementById("heatmapContainer");
@@ -1554,41 +1671,54 @@ function renderHeatmap(){
 const filteredData =
 heatmapCache.filter(item=>{
 
-    const d =
-    new Date(item.date);
-
-    // const key =
-    //     d.getFullYear()
-    //     +
-    //     "-"
-    //     +
-    //     (d.getMonth()+1);
     const shamsi =
-toJalali(d);
+        new Intl.DateTimeFormat(
+            'en-US-u-ca-persian',
+            {
+                year:"numeric",
+                month:"numeric",
+                day:"numeric"
+            }
+        ).formatToParts(new Date(item.date));
 
-const key =
-shamsi.jy +
-"-" +
-shamsi.jm;
 
-    return key===selectedStatisticsMonth;
+    let jy, jm;
+
+
+    shamsi.forEach(x=>{
+
+        if(x.type==="year")
+            jy = Number(x.value);
+
+        if(x.type==="month")
+            jm = Number(x.value);
+
+    });
+
+
+    const key =
+        jy +
+        "/" +
+        String(jm).padStart(2,"0");
+
+
+    return key === selectedStatisticsMonth;
 
 });
 
 
+console.log("filteredData =", filteredData);
+
+
 const parts =
-selectedStatisticsMonth.split("-");
+selectedStatisticsMonth.split("/");
 
 
 const fullData =
-fillMissingDays(
-
+fillMissingShamsiDays(
     filteredData,
-
     Number(parts[0]),
-
-    Number(parts[1])-1
-
+    Number(parts[1])
 );
 
 
@@ -1606,13 +1736,15 @@ fillMissingDays(
         box.className="heatBox";
 
 
-        box.innerHTML = 
-    new Intl.DateTimeFormat(
-        'fa-IR-u-ca-persian',
-        {
-            day:'numeric'
-        }
-    ).format(new Date(item.date));
+    //     box.innerHTML = 
+    // new Intl.DateTimeFormat(
+    //     'fa-IR-u-ca-persian',
+    //     {
+    //         day:'numeric'
+    //     }
+    // ).format(new Date(item.date));
+
+box.innerHTML = item.date;
 
 
         box.title =
@@ -1647,87 +1779,46 @@ fillMissingDays(
 
 
         container.appendChild(box);
+        console.log("box created", box);
 
 
     });
 
 
 }
-
-function fillMissingDays(data,year,month){
+function fillMissingDays(data){
 
     const result=[];
 
     const map={};
 
-
     data.forEach(x=>{
 
-        let key =
-        new Date(x.date)
-        .toISOString()
-        .split("T")[0];
-
-
-        map[key]=Number(x.count);
+        map[x.shamsiDay]=Number(x.count);
 
     });
 
+    const maxDay=Math.max(
 
+        ...data.map(x=>x.shamsiDay)
 
-    // const now=new Date();
+    );
 
-
-    // const year =
-    // now.getFullYear();
-
-
-    // const month =
-    // now.getMonth();
-
-
-
-    const days =
-    new Date(
-        year,
-        month+1,
-        0
-    ).getDate();
-
-
-
-    for(let i=1;i<=days;i++){
-
-
-        const d =
-        new Date(
-            year,
-            month,
-            i
-        );
-
-
-        const key =
-        d.toISOString()
-        .split("T")[0];
-
+    for(let i=1;i<=maxDay;i++){
 
         result.push({
 
-            date:key,
+            day:i,
 
-            count:
-            map[key] || 0
+            count:map[i]||0
 
         });
 
     }
 
-
     return result;
 
 }
-
 
 function convertToShamsiDay(date){
 
@@ -1763,7 +1854,6 @@ async function loadStreak(){
 
 }
 
-
 function calculateStreak(){
 
 
@@ -1773,35 +1863,47 @@ function calculateStreak(){
     streakCache.forEach(item=>{
 
 
-        if(item.count>0){
+        if(item.count > 0){
 
-            days[item.date]=true;
+const d = new Date(item.date);
+
+const key = localDateKey(d);
+
+days[key] = true;
+
+            days[key] = true;
 
         }
-
 
     });
 
 
 
-    let streak=0;
+    let streak = 0;
 
 
-    let current =
-    new Date();
-
+    let current = new Date();
 
     current.setHours(0,0,0,0);
 
 
 
+    console.log("days object:", days);
+
+console.log(
+    "current local:",
+    current
+);
+
+console.log(
+    "current iso:",
+    current.toISOString().split("T")[0]
+);
+
     while(true){
 
 
-        const key =
-        current
-        .toISOString()
-        .split("T")[0];
+ const key = localDateKey(current);
 
 
 
@@ -1817,14 +1919,11 @@ function calculateStreak(){
 
 
         }
-
         else{
-
 
             break;
 
         }
-
 
     }
 
@@ -1839,76 +1938,34 @@ function calculateStreak(){
 }
 
 
-
-
 function loadStatisticsMonths(){
 
+    cmbStatisticsMonth.innerHTML = "";
 
-    cmbStatisticsMonth.innerHTML="";
-
-
-    const months=[];
-
+    const months = [];
 
     statisticsCache.forEach(item=>{
 
-
-        const d =
-        new Date(item.date);
-
-
         const key =
-        d.getFullYear()
-        +
-        "-"
-        +
-        (d.getMonth()+1);
-
+            item.shamsiYear +
+            "/" +
+            String(item.shamsiMonth).padStart(2,"0");
 
         if(!months.includes(key))
-
             months.push(key);
-
 
     });
 
-
     months.sort();
-
 
     months.forEach(key=>{
 
-
-        const p =
-        key.split("-");
-
-
-        const year =
-        Number(p[0]);
-
-
-        const month =
-        Number(p[1]);
-
-
-        const date =
-        new Date(year,month-1,1);
-
+        const parts = key.split("/");
 
         const title =
-        new Intl.DateTimeFormat(
-            "fa-IR-u-ca-persian",
-            {
-
-                year:"numeric",
-
-                month:"long"
-
-            }
-
-        ).format(date);
-
-
+            parts[0] +
+            " / " +
+            parts[1];
 
         cmbStatisticsMonth.innerHTML += `
 
@@ -1920,16 +1977,12 @@ function loadStatisticsMonths(){
 
         `;
 
-
     });
 
-
     selectedStatisticsMonth =
-    cmbStatisticsMonth.value;
-
+        cmbStatisticsMonth.value;
 
 }
-
 
 cmbStatisticsMonth.onchange=function(){
 
@@ -1956,6 +2009,7 @@ function showApp(){
     loginPage.style.display="none";
 
     appContainer.style.display="block";
+    closeSidebar(); 
 
 }
 
@@ -1979,6 +2033,8 @@ if(result.success){
     sessionStorage.setItem("logged","1");
 
     showApp();
+
+    closeSidebar();
 
     loadCategories();
 
@@ -2022,5 +2078,235 @@ if(sessionStorage.getItem("logged")){
 else{
 
     showLogin();
+
+}
+
+
+
+
+function buildCompare(user,correct){
+
+    const max=Math.max(
+        user.length,
+        correct.length
+    );
+
+    let html="";
+
+    for(let i=0;i<max;i++){
+
+        const u=user[i] || "";
+        const c=correct[i] || "";
+
+        if(u===c){
+
+            html+=`
+
+            <div class="letterBox">
+
+                <div class="letter correct">
+
+                    ${u}
+
+                    <div class="icon correct">
+
+                        ✓
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+
+        else{
+
+            html+=`
+
+            <div class="letterBox">
+
+                <div class="letter wrong">
+
+                    ${u}
+
+                    <div class="icon wrong">
+
+                        ✕
+
+                    </div>
+
+                </div>
+
+                <div class="correctHint">
+
+                    ${c}
+
+                </div>
+
+            </div>
+
+            `;
+
+        }
+
+    }
+
+    return html;
+
+}
+
+
+
+function fillMissingShamsiDays(data, jy, jm){
+
+    const result = [];
+
+    const map = {};
+
+
+    data.forEach(item=>{
+
+        const parts =
+            new Intl.DateTimeFormat(
+                'en-US-u-ca-persian',
+                {
+                    year:"numeric",
+                    month:"numeric",
+                    day:"numeric"
+                }
+            ).formatToParts(new Date(item.date));
+
+
+        let day;
+
+
+        parts.forEach(p=>{
+
+            if(p.type==="day")
+                day = Number(p.value);
+
+        });
+
+
+        map[day] = item.count;
+
+
+    });
+
+
+
+    // تعداد روزهای ماه شمسی
+    let days;
+
+
+    if(jm <= 6)
+        days = 31;
+    else if(jm <= 11)
+        days = 30;
+    else
+        days = 30; // فعلا برای سادگی
+
+
+
+    for(let i=1;i<=days;i++){
+
+        result.push({
+
+            date:
+                i,
+
+            count:
+                map[i] || 0
+
+        });
+
+    }
+
+
+    return result;
+
+}
+
+
+
+function fillMissingShamsiChartDays(data, jy, jm){
+
+    const result = [];
+
+    const map = {};
+
+
+    data.forEach(item=>{
+
+        const parts =
+        new Intl.DateTimeFormat(
+            'en-US-u-ca-persian',
+            {
+                day:"numeric"
+            }
+        ).formatToParts(new Date(item.date));
+
+
+        let day = 0;
+
+
+        parts.forEach(p=>{
+
+            if(p.type==="day")
+                day = Number(p.value);
+
+        });
+
+
+        map[day] = item.count;
+
+    });
+
+
+
+    let days;
+
+
+    if(jm <= 6)
+        days = 31;
+    else
+        days = 30;
+
+
+
+    for(let i=1;i<=days;i++){
+
+        result.push({
+
+            date:i,
+
+            count:
+            map[i] || 0
+
+        });
+
+    }
+
+
+    return result;
+
+}
+
+
+
+function localDateKey(date){
+
+    const y = date.getFullYear();
+
+    const m = String(date.getMonth()+1)
+        .padStart(2,"0");
+
+    const d = String(date.getDate())
+        .padStart(2,"0");
+
+    return `${y}-${m}-${d}`;
 
 }
