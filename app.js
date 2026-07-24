@@ -190,6 +190,92 @@ const stageColors = [
 
 ];
 
+
+
+
+
+
+
+
+// ==================== sketlon
+function showCategoriesSkeleton(){
+
+    categories.style.display = "none";
+
+    categoriesSkeleton.style.display = "grid";
+
+    categoriesSkeleton.innerHTML = "";
+
+    for(let i=0;i<8;i++){
+
+        categoriesSkeleton.innerHTML += `
+
+            <div class="skeletonCard">
+
+                <div class="skeletonLine large"></div>
+
+                <div class="skeletonLine small"></div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+function hideCategoriesSkeleton(){
+
+    categoriesSkeleton.style.display="none";
+
+    categories.style.display="grid";
+
+}
+
+
+
+//
+
+function showStagesSkeleton(){
+
+    stagesSkeleton.style.display = "grid";
+
+    stages.style.display = "none";
+
+}
+
+function hideStagesSkeleton(){
+
+    stagesSkeleton.style.display = "none";
+
+    stages.style.display = "grid";
+
+}
+
+function showStreakSkeleton(){
+
+    streakValue.innerHTML = `
+        <div class="skeleton streakSkeleton"></div>
+    `;
+
+}
+
+
+function hideStreakSkeleton(){
+
+    streakSkeleton.style.display="none";
+
+    streakCard.style.display="flex";
+
+}
+
+//
+
+
+
+
+
+
 //======================================================
 // Helpers
 //======================================================
@@ -266,7 +352,7 @@ function showStatisticsPage(){
 //======================================================
 
 async function get(url){
-    showLoading();
+    //showLoading();
 
     try{
 
@@ -278,7 +364,7 @@ async function get(url){
     }
     finally{
 
-        hideLoading();
+       // hideLoading();
 
     }
 
@@ -328,8 +414,12 @@ async function post(data){
 //======================================================
 
 async function loadCategories(){
-
+    
     showCategoriesPage();
+    
+    showCategoriesSkeleton();
+    showStreakSkeleton();
+    
 
     categoriesDiv.innerHTML = "";
 
@@ -343,6 +433,10 @@ async function loadCategories(){
     }
 
     // از اینجا به بعد فقط از کش استفاده کن
+
+    
+    
+
     categoriesCache.forEach(c=>{
 
         // کارت‌های Practice
@@ -372,6 +466,8 @@ async function loadCategories(){
 
 
     loadStreak();
+    hideCategoriesSkeleton();
+    hideStreakSkeleton();
 
 }
 
@@ -388,6 +484,8 @@ async function openCategory(category){
     categoryName.innerHTML = category;
 
     showStagesPage();
+    showStagesSkeleton();
+    showSummarySkeleton();
 
     const response = await get(
         
@@ -415,7 +513,8 @@ async function openCategory(category){
         stageWords[i] = [];
 
     }
-
+hideStagesSkeleton();
+hideSummarySkeleton();
     categoryData.words.forEach(w=>{
 
         if(!stageWords[w.stage])
@@ -431,6 +530,25 @@ async function openCategory(category){
 }
 
 
+
+function showSummarySkeleton(){
+
+    summarySkeleton.style.display = "grid";
+
+    summaryCard.style.display = "none";
+
+    
+
+}
+
+
+function hideSummarySkeleton(){
+
+    summarySkeleton.style.display = "none";
+
+    summaryCard.style.display = "grid";
+
+}
 //======================================================
 // Render Stages
 //======================================================
@@ -1229,20 +1347,13 @@ document.addEventListener(
 
 window.addEventListener("load", async function(){
 
-    if(sessionStorage.getItem("logged")){
 
-        showApp();
 
-        await loadCategories();
+
 
         await restoreSession();
 
-    }
-    else{
 
-        showLogin();
-
-    }
 
 });
 

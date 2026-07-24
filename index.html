@@ -193,7 +193,8 @@ Heatmap
 
             </h1>
 
-            <div class="streakCard">
+<!-- Skeleton -->
+<div class="streakCard" id="streakCard">
 
     <div class="streakIcon">
         🔥
@@ -217,11 +218,19 @@ Heatmap
 
 </div>
 
-            <div
-                id="categories"
-                class="grid">
 
-            </div>
+
+<div
+    id="categories"
+    class="grid">
+
+</div>
+
+<div
+    id="categoriesSkeleton"
+    class="grid"
+    style="display:none;">
+</div>
 
         </section>
 
@@ -249,8 +258,27 @@ Heatmap
 
             </div>
 
+<div id="summarySkeleton" class="summaryCard" style="display:none;">
 
-            <div class="summaryCard">
+    <div class="summaryItem">
+        <div class="summarySkeletonTitle"></div>
+        <div class="summarySkeletonValue"></div>
+    </div>
+
+    <div class="summaryItem">
+        <div class="summarySkeletonTitle"></div>
+        <div class="summarySkeletonValue"></div>
+    </div>
+
+    <div class="summaryItem">
+        <div class="summarySkeletonTitle"></div>
+        <div class="summarySkeletonValue"></div>
+    </div>
+
+</div>
+
+
+            <div class="summaryCard"   id="summaryCard">
 
                 <div class="summaryItem">
 
@@ -307,6 +335,21 @@ Heatmap
                 </div>
 
             </div>
+
+
+
+<div id="stagesSkeleton" class="grid" style="display:none">
+
+    <div class="stageSkeleton"></div>
+    <div class="stageSkeleton"></div>
+    <div class="stageSkeleton"></div>
+    <div class="stageSkeleton"></div>
+    <div class="stageSkeleton"></div>
+    <div class="stageSkeleton"></div>
+
+</div>
+
+
 
             <div
                 id="stages"
