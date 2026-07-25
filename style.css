@@ -1091,7 +1091,7 @@ button:active{
 
     .mainContent{
 
-        max-width:1500px;
+        /* max-width:1500px; */
 
         margin:auto;
 
@@ -1539,7 +1539,7 @@ width:70px;
 
 .mainContent{
 
-    margin-left:250px;
+    /* margin-left:250px; */
 
 }
 
