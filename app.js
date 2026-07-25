@@ -886,6 +886,8 @@ function showWord(){
 
     reviewButtons.style.display = "none";
 
+    compareResult.innerHTML = "";
+
 }
 
 
@@ -1640,6 +1642,7 @@ chartData.map(x=>x.count);
 options:{
 
     responsive:true,
+    maintainAspectRatio: false,
 
     
 

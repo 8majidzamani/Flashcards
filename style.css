@@ -192,13 +192,11 @@ body{
 ======================================================= */
 
 .mainContent{
-
     flex:1;
-
     padding:35px;
-
     overflow:auto;
 
+    min-height:0;
 }
 
 
@@ -1649,6 +1647,21 @@ to{
 /* =========================
    Statistics
 ========================= */
+.chartContainer{
+    height:720px;
+    min-height:420px;
+}
+
+
+#statisticsChart{
+
+    width:100% !important;
+
+    height:100% !important;
+
+}
+
+
 
 .statisticsCard{
 
