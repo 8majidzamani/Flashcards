@@ -525,6 +525,10 @@ hideSummarySkeleton();
 
     });
 
+
+
+
+
     renderStages();
 
 }
@@ -575,10 +579,34 @@ function renderStages(){
     document.getElementById("totalWords").innerHTML = total;
     document.getElementById("readyWords").innerHTML = ready;
 
-    document.getElementById("progressPercent").innerHTML =
-        total==0
-        ? "0%"
-        : Math.round(((total-source)/total)*100)+"%";
+let progress = 0;
+
+if(total > 0){
+
+    let totalStage = 0;
+
+    categoryData.words.forEach(w=>{
+
+        const stage = Number(w.stage);
+
+if(stage > 1){
+
+    totalStage += (stage - 1);
+
+}
+
+    });
+
+    progress = Math.round(
+
+        (totalStage / (categoryData.words.length * 5)) * 100
+
+    );
+
+}
+
+document.getElementById("progressPercent").innerHTML =
+progress + "%";
 
 
     const colors=[
@@ -871,6 +899,19 @@ function showWord(){
         (currentIndex + 1) +
         " / " +
         currentWords.length;
+
+
+    const percent =
+((currentIndex + 1) /
+currentWords.length) * 100;
+
+studyProgressFill.style.width =
+percent + "%";
+
+studyProgressText.innerHTML =
+(currentIndex + 1) +
+" / " +
+currentWords.length;
 
     word.innerHTML = w.Front;
 
