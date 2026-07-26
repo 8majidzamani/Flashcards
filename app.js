@@ -254,21 +254,56 @@ function hideStagesSkeleton(){
 
 function showStreakSkeleton(){
 
-    streakValue.innerHTML = `
-        <div class="skeleton streakSkeleton"></div>
-    `;
+    document
+        .getElementById("streakCard")
+        .classList.add("skeleton");
 
 }
 
 
 function hideStreakSkeleton(){
 
-    streakSkeleton.style.display="none";
-
-    streakCard.style.display="flex";
+    document
+        .getElementById("streakCard")
+        .classList.remove("skeleton");
 
 }
 
+
+
+function showHeatmapSkeleton(){
+
+    document
+        .getElementById("heatmapCard")
+        .classList.add("skeleton");
+
+}
+
+function hideHeatmapSkeleton(){
+
+    document
+        .getElementById("heatmapCard")
+        .classList.remove("skeleton");
+
+}
+
+
+
+function showStatisticsSkeleton(){
+
+    document
+        .getElementById("statisticsCard")
+        .classList.add("skeleton");
+
+}
+
+function hideStatisticsSkeleton(){
+
+    document
+        .getElementById("statisticsCard")
+        .classList.remove("skeleton");
+
+}
 //
 
 
@@ -465,7 +500,7 @@ async function loadCategories(){
     });
 
 
-    loadStreak();
+    await loadStreak();
     hideCategoriesSkeleton();
     hideStreakSkeleton();
 
@@ -949,7 +984,7 @@ function checkAnswer(){
             .Back
             .trim()
             .toLowerCase();
-
+compareResult.innerHTML = "";
     if(answer == correct){
 
         result.innerHTML = "✅ Correct";
@@ -958,6 +993,7 @@ function checkAnswer(){
             "result correct";
 
         correctWord.innerHTML = "";
+        compareResult.innerHTML = "";
 
 
         wordCard.classList.remove("cardIncorrect");
@@ -971,6 +1007,8 @@ function checkAnswer(){
     result.className = "result incorrect";
 
     compareResult.innerHTML =
+
+
 
     buildCompare(
 
@@ -1526,7 +1564,7 @@ function hideLoading(){
 
 
 async function loadStatistics(){
-
+showStatisticsSkeleton();
     if(statisticsCache == null){
 
         const response =
@@ -1588,6 +1626,8 @@ loadStatisticsMonths();
     }
 
     renderStatistics();
+
+    hideStatisticsSkeleton();
 
 }
 
@@ -1791,6 +1831,7 @@ function showHeatmapPage(){
 
 async function loadHeatmap(){
 
+showHeatmapSkeleton();
     if(heatmapCache==null){
 
         const response =
@@ -1804,6 +1845,7 @@ async function loadHeatmap(){
 
 
     renderHeatmap();
+   hideHeatmapSkeleton();
 
 }
 
@@ -2247,13 +2289,14 @@ function buildCompare(user,correct){
     );
 
     let html="";
-
+    let correctText = "";
     for(let i=0;i<max;i++){
 
         const u=user[i] || "";
         const c=correct[i] || "";
+        correctText += c;
 
-        if(u===c){
+        if(u.toLowerCase() === c.toLowerCase()){
 
             html+=`
 
@@ -2277,37 +2320,39 @@ function buildCompare(user,correct){
 
         }
 
-        else{
+else{
 
-            html+=`
+    html+=`
 
-            <div class="letterBox">
+    <div class="letterBox">
 
-                <div class="letter wrong">
+        <div class="letter wrong">
 
-                    ${u}
+            ${u}
 
-                    <div class="icon wrong">
+            <div class="icon wrong">
 
-                        ✕
-
-                    </div>
-
-                </div>
-
-                <div class="correctHint">
-
-                    ${c}
-
-                </div>
+                ✕
 
             </div>
 
-            `;
+        </div>
 
-        }
+    </div>
+
+    `;
+
+}
 
     }
+html += `
+<div class="correctWordText">
+
+    Correct:
+    <b>${correctText}</b>
+
+</div>
+`;
 
     return html;
 
