@@ -1763,6 +1763,7 @@ to{
 .level3{
 
     background:#16a34a;
+    color : rgb(255, 255, 255);
 
 }
 
@@ -1770,6 +1771,7 @@ to{
 .level4{
 
     background:#166534;
+    color : white;
 
 }
 
@@ -3038,5 +3040,32 @@ to{
 .skeleton .streakValue{
 
     visibility:hidden;
+
+}
+
+
+#btnRefreshStatistics{
+
+    margin-left:12px;
+
+    padding:8px 16px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#btnRefreshStatistics:hover{
+
+    background:#1d4ed8;
 
 }

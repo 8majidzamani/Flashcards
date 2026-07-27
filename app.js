@@ -192,7 +192,8 @@ const stageColors = [
 
 
 
-
+const btnRefreshStatistics =
+document.getElementById("btnRefreshStatistics");
 
 
 
@@ -1301,22 +1302,29 @@ btnCheck.addEventListener("click",checkAnswer);
 // Enter = Check
 txtAnswer.addEventListener("keydown",function(e){
 
-    if(e.key=="Enter"){
+if(e.key === "Enter"){
 
-        e.preventDefault();
+    if(reviewButtons.style.display !== "none"){
 
-        if(reviewButtons.style.display=="grid"){
+        if(result.classList.contains("correct")){
 
-            updateWord("know");
+            btnKnow.click();
 
         }
         else{
 
-            checkAnswer();
+            btnDontKnow.click();
 
         }
 
     }
+    else{
+
+        btnCheck.click();
+
+    }
+
+}
 
 });
 
@@ -1426,18 +1434,11 @@ document.addEventListener(
 // Start
 //======================================================
 
-window.addEventListener("load", async function(){
+window.addEventListener("load", function(){
 
-
-
-
-
-        await restoreSession();
-
-
+    showCategoriesPage();
 
 });
-
 menuPractice.addEventListener("click",function(){
 
     document
@@ -2508,5 +2509,19 @@ function localDateKey(date){
         .padStart(2,"0");
 
     return `${y}-${m}-${d}`;
+
+}
+
+btnRefreshStatistics.onclick = function(){
+
+    refreshStatistics();
+
+};
+
+async function refreshStatistics(){
+
+    statisticsCache = null;
+
+    await loadStatistics();
 
 }
