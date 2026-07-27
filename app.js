@@ -304,6 +304,50 @@ function hideStatisticsSkeleton(){
         .getElementById("statisticsCard")
         .classList.remove("skeleton");
 
+
+
+
+
+}
+
+
+// function showSummarySkeleton(){
+
+//     document.getElementById("summaryTotal").classList.add("skeleton");
+//     document.getElementById("summaryReady").classList.add("skeleton");
+//     document.getElementById("summaryProgress").classList.add("skeleton");
+
+// }
+
+// function hideSummarySkeleton(){
+
+//     document.getElementById("summaryTotal").classList.remove("skeleton");
+//     document.getElementById("summaryReady").classList.remove("skeleton");
+//     document.getElementById("summaryProgress").classList.remove("skeleton");
+
+// }
+function showSummarySkeleton(){
+
+    document.querySelectorAll(".summaryLoader").forEach(loader=>{
+
+        loader.style.display = "flex";
+
+        loader.parentElement.classList.add("summary-loading");
+
+    });
+
+}
+
+function hideSummarySkeleton(){
+
+    document.querySelectorAll(".summaryLoader").forEach(loader=>{
+
+        loader.style.display = "none";
+
+        loader.parentElement.classList.remove("summary-loading");
+
+    });
+
 }
 //
 
@@ -571,24 +615,24 @@ hideSummarySkeleton();
 
 
 
-function showSummarySkeleton(){
+// function showSummarySkeleton(){
 
-    summarySkeleton.style.display = "grid";
+//     summarySkeleton.style.display = "grid";
 
-    summaryCard.style.display = "none";
+//     summaryCard.style.display = "none";
 
     
 
-}
+// }
 
 
-function hideSummarySkeleton(){
+// function hideSummarySkeleton(){
 
-    summarySkeleton.style.display = "none";
+//     summarySkeleton.style.display = "none";
 
-    summaryCard.style.display = "grid";
+//     summaryCard.style.display = "grid";
 
-}
+// }
 //======================================================
 // Render Stages
 //======================================================
