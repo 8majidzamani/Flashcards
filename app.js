@@ -180,13 +180,22 @@ document.getElementById("loginMessage");
 
 const stageColors = [
 
-    "stage-gray",     // Source
-    "stage-green",    // Every Day
-    "stage-blue",
-    "stage-orange",
-    "stage-purple",
-    "stage-pink",
-    "stage-cyan"
+    // "stage-gray",     // Source
+    // "stage-green",    // Every Day
+    // "stage-blue",
+    // "stage-red",
+    // "stage-orange",
+    // "stage-purple",
+    // "stage-pink",
+    // "stage-gold"
+            "stage-source",
+        "stage-green",
+        "stage-blue",
+        "stage-red",
+        "stage-purple",
+        "stage-pink",
+        "stage-orange",
+        "stage-gold"
 
 ];
 
@@ -430,21 +439,81 @@ function showStatisticsPage(){
 //======================================================
 // API
 //======================================================
+const MAX_RETRY = 3;
+const RETRY_DELAY = [3000, 6000, 10000];
+function sleep(ms){
 
+    return new Promise(resolve => setTimeout(resolve, ms));
+
+}
+
+function showNetworkToast(text){
+
+    networkToastText.innerHTML = text;
+
+    networkToast.classList.add("show");
+
+}
+
+async function hideNetworkToast(){
+
+    networkToastText.innerHTML = "🟢 Back online";
+
+    await sleep(2000);
+
+    networkToast.classList.remove("show");
+
+}
+function sleep(ms){
+
+    return new Promise(resolve=>setTimeout(resolve,ms));
+
+}
+
+
+// async function get(url){
+//     //showLoading();
+
+//     try{
+
+//     const response =
+//     await fetch(API + url);
+
+//     return await response.json();
+
+//     }
+//     finally{
+
+//        // hideLoading();
+
+//     }
+
+// }
 async function get(url){
-    //showLoading();
 
-    try{
+    while(true){
 
-    const response =
-    await fetch(API + url);
+        try{
 
-    return await response.json();
+            const response = await fetch(API + url);
 
-    }
-    finally{
+            if(!response.ok)
+                throw new Error("HTTP " + response.status);
 
-       // hideLoading();
+            await hideNetworkToast();
+
+            return await response.json();
+
+        }
+        catch(err){
+
+            console.warn("GET failed", err);
+
+            showNetworkToast("⚠️ Connection lost<br>Retrying...");
+
+            await sleep(5000);
+
+        }
 
     }
 
@@ -454,11 +523,42 @@ async function get(url){
 
 
 
+// async function post(data){
+
+//     showLoading();
+
+//     try{
+
+//     const form = new URLSearchParams();
+
+//     Object.keys(data).forEach(key=>{
+
+//         form.append(key,data[key]);
+
+//     });
+
+//     const response = await fetch(API,{
+
+//         method:"POST",
+
+//         body:form
+
+//     });
+
+//     return await response.json();
+
+
+//     }
+//     finally{
+
+//         hideLoading();
+
+//     }
+
+// }
 async function post(data){
 
     showLoading();
-
-    try{
 
     const form = new URLSearchParams();
 
@@ -468,16 +568,39 @@ async function post(data){
 
     });
 
-    const response = await fetch(API,{
+    try{
 
-        method:"POST",
+        while(true){
 
-        body:form
+            try{
 
-    });
+                const response = await fetch(API,{
 
-    return await response.json();
+                    method:"POST",
 
+                    body:form
+
+                });
+
+                if(!response.ok)
+                    throw new Error("HTTP " + response.status);
+
+                await hideNetworkToast();
+
+                return await response.json();
+
+            }
+            catch(err){
+
+                console.warn("POST failed", err);
+
+                showNetworkToast("⚠️ Connection lost<br>Retrying...");
+
+                await sleep(5000);
+
+            }
+
+        }
 
     }
     finally{
@@ -487,8 +610,6 @@ async function post(data){
     }
 
 }
-
-
 //======================================================
 // Categories
 //======================================================
@@ -588,7 +709,7 @@ async function openCategory(category){
 
     stageWords = {};
 
-    for(let i=0;i<=6;i++){
+    for(let i=0;i<=7;i++){
 
         stageWords[i] = [];
 
@@ -693,6 +814,7 @@ progress + "%";
         "stage-source",
         "stage-green",
         "stage-blue",
+        "stage-red",
         "stage-purple",
         "stage-pink",
         "stage-orange",
@@ -704,6 +826,7 @@ progress + "%";
         "New words waiting",
         "Review every day",
         "Review every 2 days",
+        "Review every 4 days",
         "Review every 8 days",
         "Review every 16 days",
         "Review every 32 days",
@@ -725,6 +848,7 @@ progress + "%";
             button=`
 
                 <button
+                    id="btnMove30"
                     class="stageButton ${colors[s.stage]}"
                     onclick="move30()">
 
@@ -846,25 +970,75 @@ stagesDiv.innerHTML += `
 // Move 30
 //======================================================
 
+// async function move30(){
+
+//     const res = await get(
+
+//         "?action=move30&category=" +
+
+//         encodeURIComponent(currentCategory)
+
+//     );
+
+//     if(!res.success){
+
+//         alert("Move failed");
+
+//         return;
+
+//     }
+
+//     await openCategory(currentCategory);
+
+// }
 async function move30(){
 
-    const res = await get(
+    const btn = document.getElementById("btnMove30");
 
-        "?action=move30&category=" +
+    btn.disabled = true;
 
-        encodeURIComponent(currentCategory)
+    btn.innerHTML = `
+    <div class="buttonLoader">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+`;
 
-    );
+    try{
 
-    if(!res.success){
+        const res = await get(
 
-        alert("Move failed");
+            "?action=move30&category=" +
 
-        return;
+            encodeURIComponent(currentCategory)
+
+        );
+
+        if(!res.success){
+
+            alert("Move failed");
+
+            return;
+
+        }
+
+        await openCategory(currentCategory);
 
     }
+    finally{
 
-    await openCategory(currentCategory);
+        const newBtn = document.getElementById("btnMove30");
+
+        if(newBtn){
+
+            newBtn.disabled = false;
+
+            newBtn.innerHTML = "+ Add 30 Words";
+
+        }
+
+    }
 
 }
 
@@ -1105,15 +1279,15 @@ function updateWord(type){
 
         case "master":
 
-            stage = 6;
+            stage = 7;
 
             break;
 
     }
 
-    if(stage > 6)
+    if(stage > 7)
 
-        stage = 6;
+        stage = 7;
 
     if(stage < 0)
 
