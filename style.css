@@ -798,6 +798,7 @@ h2{
     color:white;
 
     font-size:16px;
+    background: #07214c;
 
 }
 
@@ -1737,6 +1738,16 @@ to{
 
 }
 
+#heatmapContainer2{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+}
+
 
 .heatBox{
 
@@ -1823,6 +1834,9 @@ to{
     width:fit-content;
 
 }
+
+
+
 
 
 .streakIcon{
@@ -2630,7 +2644,39 @@ to{
 
 }
 
+.loading{
 
+    pointer-events: none;
+    opacity: .9;
+
+}
+
+.loading .dotLoader{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+
+}
+
+
+
+#btnLogin.loading{
+
+    pointer-events: none;
+    opacity: .9;
+
+}
+
+#btnLogin.loading .dotLoader{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+
+}
 #btnLogin{
 
     width:100%;
@@ -2641,7 +2687,7 @@ to{
 
     border-radius:12px;
 
-    background:#641063;
+    background:#07214c;
 
     color:white;
 
@@ -3095,6 +3141,34 @@ to{
 }
 
 
+
+#btnRefreshProgress{
+
+    margin-left:12px;
+
+    padding:8px 16px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#btnRefreshProgress:hover{
+
+    background:#1d4ed8;
+
+}
+
+
 #summarySkeleton{
 
     display:grid;
@@ -3279,9 +3353,9 @@ to{
 
     border-radius:50%;
 
-    background:#2563EB;
-
-    animation:dotBounce .8s infinite ease-in-out;
+    background:#00d0ff;
+/* background:#2563EB; */
+    animation:dotBounce .8s infinite ease-out;
 
 }
 

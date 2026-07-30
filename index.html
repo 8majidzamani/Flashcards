@@ -141,14 +141,49 @@ Statistics
         id="menuHeatmap">
 
             <span class="material-icons">
-calendar_month
-</span>
+        calendar_month
+        </span>
 
-<span class="menuText">
-Heatmap
-</span>
+        <span class="menuText">
+        Heatmap
+        </span>
 
         </button>
+
+
+
+    <button
+    class="menuItem"
+    id="menuProgress">
+
+    <span class="material-icons">
+        trending_up
+    </span>
+
+    <span class="menuText">
+        Progress
+    </span>
+
+    </button>
+
+
+
+            <button
+        class="menuItem"
+        id="menuHeatmap2">
+
+            <span class="material-icons">
+        event_available
+        </span>
+
+        <span class="menuText">
+        Heatmap
+        </span>
+
+        </button>
+
+
+
 
 
     </aside>
@@ -731,13 +766,123 @@ Heatmap
 
 
 
+
+
+
+
+<!-- ========================= -->
+<!-- pageProgress -->
+<!-- ========================= -->
+<section
+    id="pageProgress"
+    style="display:none;">
+
+    <h2>
+
+        Progress
+
+    </h2>
+
+
+    <div class="streakCard" id="progressStreakCard">
+
+        <div class="streakIcon">
+            🔥
+        </div>
+
+        <div>
+
+            <div class="streakTitle">
+
+                Current Streak
+
+            </div>
+
+            <div
+                id="progressStreak"
+                class="streakValue">
+
+                0 Days
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="statisticsToolbar">
+
+        <label>
+
+            Month
+
+        </label>
+
+
+        <select id="cmbProgressMonth">
+
+        </select>
+
+
+        <button id="btnRefreshProgress">
+
+            🔄 Refresh
+
+        </button>
+
+
+    </div>
+
+
+
+    <div class="statisticsCard chartContainer" id="progressCard">
+
+        <canvas
+            id="progressChart">
+
+        </canvas>
+
+    </div>
+
+
+</section>
+
+
+<!-- ========================= -->
+<!-- Heatmap2 flashcard-->
+<!-- ========================= -->
+
+<section
+
+    id="pageHeatmap2"
+
+    style="display:none;">
+
+    <h2>
+
+        Study Heatmap
+
+    </h2>
+
+
+    <div class="heatmapCard" id="heatmapCard2"> 
+
+        <div id="heatmapContainer2">
+
+        </div>
+
+    </div>
+
+
+</section>
+
     </main>
 
 </div>
 
 </div>
-
-
 
 <!-- ========================= -->
 <!-- Mobile Overlay -->

@@ -5,6 +5,13 @@ console.log("APP JS LOADED");
 //======================================================
 // Global State
 //======================================================
+let progressCache = null;
+
+let progressChart = null;
+let heatmapCache2 = null;
+
+let selectedHeatmap2Month = "";
+
 
 let streakCache = null;
 let heatmapCache = null;
@@ -90,13 +97,33 @@ document.getElementById("pageStatistics");
 const pageHeatmap =
 document.getElementById("pageHeatmap");
 
+const pageHeatmap2 =
+document.getElementById("pageHeatmap2");
+
 
 const menuHeatmap =
 document.getElementById("menuHeatmap");
 
+const menuHeatmap2 =
+document.getElementById("menuHeatmap2");
+
+
+const heatmapContainer2 =
+document.getElementById("heatmapContainer2");
 
 
 
+const menuProgress =
+    document.getElementById("menuProgress");
+
+
+cmbProgressMonth.onchange=function(){
+
+    selectedProgressMonth = this.value;
+
+    renderProgress();
+
+};
 
 //======================================================
 // Elements
@@ -158,6 +185,8 @@ const cmbStatisticsMonth =
 document.getElementById("cmbStatisticsMonth");
 
 
+
+
 const loginPage =
 document.getElementById("loginPage");
 
@@ -203,6 +232,10 @@ const stageColors = [
 
 const btnRefreshStatistics =
 document.getElementById("btnRefreshStatistics");
+
+
+const btnRefreshProgress =
+document.getElementById("btnRefreshProgress");
 
 
 
@@ -280,6 +313,24 @@ function hideStreakSkeleton(){
 }
 
 
+function showProgressStreakSkeleton(){
+ console.log("SHOW PROGRESS SKELETON");
+    document
+        .getElementById("progressStreakCard")
+        .classList.add("skeleton");
+
+}
+
+
+function hideProgressStreakSkeleton(){
+
+    document
+        .getElementById("progressStreakCard")
+        .classList.remove("skeleton");
+
+}
+
+
 
 function showHeatmapSkeleton(){
 
@@ -293,6 +344,24 @@ function hideHeatmapSkeleton(){
 
     document
         .getElementById("heatmapCard")
+        .classList.remove("skeleton");
+
+}
+
+
+function showHeatmapSkeleton2(){
+    console.log("showHeatmapSkeleton2");
+
+    document
+        .getElementById("heatmapCard2")
+        .classList.add("skeleton");
+
+}
+
+function hideHeatmapSkeleton2(){
+
+    document
+        .getElementById("heatmapCard2")
         .classList.remove("skeleton");
 
 }
@@ -314,11 +383,24 @@ function hideStatisticsSkeleton(){
         .classList.remove("skeleton");
 
 
+}
 
 
+function showProgressChartSkeleton(){
+
+    document
+        .getElementById("progressCard")
+        .classList.add("skeleton");
 
 }
 
+function hideProgressChartSkeleton(){
+
+    document
+        .getElementById("progressCard")
+        .classList.remove("skeleton");
+
+}
 
 // function showSummarySkeleton(){
 
@@ -381,6 +463,21 @@ function hidePages(){
         pageStatistics.style.display="none";
     if(pageHeatmap)
         pageHeatmap.style.display="none";
+    if(pageProgress)
+        pageProgress.style.display="none";
+    if(pageHeatmap2)
+        pageHeatmap2.style.display="none";
+
+}
+function showProgressPage(){
+
+    hidePages();
+
+    pageProgress.style.display="block";
+
+    showProgressStreakSkeleton();
+
+    loadProgress();
 
 }
 
@@ -556,9 +653,10 @@ async function get(url){
 //     }
 
 // }
-async function post(data){
+async function post(data, useLoading = true){
 
-    showLoading();
+    if(useLoading)
+        showLoading();
 
     const form = new URLSearchParams();
 
@@ -596,7 +694,7 @@ async function post(data){
 
                 showNetworkToast("⚠️ Connection lost<br>Retrying...");
 
-                await sleep(5000);
+                await sleep(4000);
 
             }
 
@@ -605,7 +703,8 @@ async function post(data){
     }
     finally{
 
-        hideLoading();
+        if(useLoading)
+            hideLoading();
 
     }
 
@@ -1080,6 +1179,29 @@ document.getElementById("studyPath").innerHTML =
 //======================================================
 // Save New Word
 //======================================================
+function showSaveLoading(){
+
+    btnSaveWord.classList.add("loading");
+
+    btnSaveWord.innerHTML = `
+        <div class="dotLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+}
+
+function hideSaveLoading(){
+
+    btnSaveWord.classList.remove("loading");
+
+    btnSaveWord.innerHTML = "Save";
+
+}
+
+
 
 async function saveWord(){
 
@@ -1089,44 +1211,55 @@ async function saveWord(){
     if(front=="" || back==""){
 
         alert("Please enter both Front and Back.");
-
         return;
 
     }
 
-    const response = await get(
+    showSaveLoading();
 
-        "?action=saveWord" +
+    try{
 
-        "&category=" +
-        encodeURIComponent(cmbCategory.value) +
+        const response = await get(
 
-        "&front=" +
-        encodeURIComponent(front) +
+            "?action=saveWord" +
 
-        "&back=" +
-        encodeURIComponent(back)
+            "&category=" +
+            encodeURIComponent(cmbCategory.value) +
 
-    );
+            "&front=" +
+            encodeURIComponent(front) +
 
-    if(response.success){
+            "&back=" +
+            encodeURIComponent(back),
 
-        saveMessage.innerHTML = "✅ Saved.";
+            false   // اگر get هم مثل post پارامتر useLoading دارد
+        );
 
-        txtFront.value = "";
-        txtBack.value = "";
+        if(response.success){
 
-        txtFront.focus();
+            saveMessage.innerHTML = "✅ Saved.";
+
+            txtFront.value = "";
+            txtBack.value = "";
+
+            txtFront.focus();
+
+        }
+        else{
+
+            saveMessage.innerHTML =
+                "❌ " + response.message;
+
+        }
 
     }
-    else{
+    finally{
 
-        saveMessage.innerHTML = "❌ " + response.message;
+        hideSaveLoading();
 
     }
 
 }
-
 //======================================================
 // Show Word
 //======================================================
@@ -1727,6 +1860,54 @@ menuHeatmap.addEventListener("click",()=>{
 });
 
 
+
+
+menuHeatmap2.addEventListener("click",()=>{
+
+
+    document
+    .querySelectorAll(".menuItem")
+    .forEach(item=>{
+
+        item.classList.remove("active");
+
+    });
+
+
+    menuHeatmap2.classList.add("active");
+
+
+    showHeatmapPage2();
+    closeSidebar();
+
+
+});
+
+
+
+menuProgress.addEventListener("click",()=>{
+
+
+    document
+    .querySelectorAll(".menuItem")
+    .forEach(item=>{
+
+        item.classList.remove("active");
+
+    });
+
+
+    menuProgress.classList.add("active");
+
+
+    showProgressPage();
+
+    closeSidebar();
+
+
+});
+
+
 btnSaveWord.addEventListener(
 
     "click",
@@ -2047,6 +2228,36 @@ function showHeatmapPage(){
 
 }
 
+function showHeatmapPage2(){
+
+    hidePages();
+
+    pageHeatmap2.style.display="block";
+
+    loadHeatmap2();
+
+}
+
+function showProgressPage(){
+
+    document
+    .querySelectorAll("main section")
+    .forEach(section=>{
+
+        section.style.display="none";
+
+    });
+
+
+    document
+    .getElementById("pageProgress")
+    .style.display="block";
+
+
+    loadProgress();
+
+}
+
 
 async function loadHeatmap(){
 
@@ -2287,7 +2498,7 @@ const key = localDateKey(d);
 
 days[key] = true;
 
-            days[key] = true;
+
 
         }
 
@@ -2429,39 +2640,78 @@ function showApp(){
 
 }
 
-
 async function login(){
 
-    const result =
-    await post({
+    showLoginLoading();
 
-        action:"login",
+    try{
 
-        username:txtUsername.value,
+const result = await post({
 
-        password:txtPassword.value
+    action:"login",
 
-    });
+    username:txtUsername.value,
 
+    password:txtPassword.value
 
-if(result.success){
+}, false);
 
-    sessionStorage.setItem("logged","1");
+        if(result.success){
 
-    showApp();
+            sessionStorage.setItem("logged","1");
 
-    closeSidebar();
+            showApp();
 
-    loadCategories();
+            closeSidebar();
 
-}
-    else{
+            loadCategories();
 
-        loginMessage.innerHTML=
+        }
+        else{
 
-            "Wrong username or password";
+            loginMessage.innerHTML =
+                "Wrong username or password";
+
+        }
 
     }
+    catch(e){
+
+        loginMessage.innerHTML =
+            "Connection error";
+
+    }
+    finally{
+
+        hideLoginLoading();
+
+    }
+
+}
+
+function showLoginLoading(){
+
+    const btn = document.getElementById("btnLogin");
+
+    btn.classList.add("loading");
+
+    btn.innerHTML = `
+        <div class="dotLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+}
+
+function hideLoginLoading(){
+
+    const btn = document.getElementById("btnLogin");
+
+    btn.classList.remove("loading");
+
+    btn.innerHTML = "Login";
 
 }
 
@@ -2736,10 +2986,561 @@ btnRefreshStatistics.onclick = function(){
 
 };
 
+
+
+btnRefreshProgress.onclick = function(){
+
+    refreshProgress();
+
+};
+
 async function refreshStatistics(){
 
     statisticsCache = null;
 
     await loadStatistics();
+
+}
+
+
+
+async function refreshProgress(){
+
+    progressCache = null;
+
+    await loadProgress();
+
+}
+
+
+
+
+
+
+
+
+
+
+//       for flashcard
+
+
+
+async function loadProgress(){
+
+
+    showProgressStreakSkeleton();
+    showProgressChartSkeleton();
+    if(progressCache  == null){
+
+        const response =
+            await get("?action=progress");
+
+        progressCache  = response.chart.map(item=>{
+
+
+function faToEn(str){
+
+    const map = {
+
+        '۰':'0',
+        '۱':'1',
+        '۲':'2',
+        '۳':'3',
+        '۴':'4',
+        '۵':'5',
+        '۶':'6',
+        '۷':'7',
+        '۸':'8',
+        '۹':'9'
+
+    };
+
+    return str.replace(/[۰-۹]/g, d => map[d]);
+
+}
+
+
+const shamsi =
+convertToShamsi(item.date);
+
+const parts =
+faToEn(shamsi).split("/");
+
+    return{
+
+        ...item,
+
+        shamsiYear:
+        Number(parts[0]),
+
+        shamsiMonth:
+        Number(parts[1]),
+
+        shamsiDay:
+        Number(parts[2]),
+
+        shamsi:
+        shamsi
+
+    };
+
+});
+
+loadProgressMonths();
+
+    }
+
+    document.getElementById(
+    "progressStreak"
+).innerHTML =
+calculateProgressStreak(progressCache)
++ " Days";
+
+    renderProgress();
+
+    hideProgressStreakSkeleton();
+    hideProgressChartSkeleton();
+  
+
+}
+
+
+
+
+function renderProgress(){
+
+
+    const ctx =
+    document
+    .getElementById("progressChart")
+    .getContext("2d");
+
+
+//---
+const filteredData =
+progressCache.filter(item=>{
+
+    const key =
+        item.shamsiYear +
+        "/" +
+        String(item.shamsiMonth).padStart(2,"0");
+
+    return key == selectedProgressMonth;
+
+});
+
+  const parts =
+selectedProgressMonth.split("/");
+const chartData =
+fillMissingShamsiChartDays(
+    filteredData,
+    Number(parts[0]),
+    Number(parts[1])
+);
+console.log("selected month:", selectedProgressMonth);
+console.log("filteredData:", filteredData);
+console.log("chartData:", chartData);
+
+const labels =
+chartData.map(x=>String(x.date));
+
+
+
+  
+
+// const chartData =
+// fillMissingDays(
+//     filteredData,
+//     Number(parts[0]),
+//     Number(parts[1]) - 1
+// );
+
+
+
+
+const values =
+chartData.map(x=>x.count);
+
+
+
+    if(progressChart){
+
+        progressChart.destroy();
+
+    }
+
+
+    progressChart =
+    new Chart(ctx,{
+
+        type:"bar",
+
+        data:{
+
+            labels:labels,
+
+            datasets:[{
+
+                label:"Reviewed Words",
+
+                data:values,
+
+                
+
+            }]
+
+        },
+
+options:{
+
+    responsive:true,
+    maintainAspectRatio: false,
+
+    
+
+    plugins:{
+
+        legend:{
+
+            display:true,
+
+            labels:{
+
+                font:{
+
+                    family:"Segoe UI",
+
+                    size:10
+
+                }
+
+            }
+
+        }
+
+    },
+
+
+    scales:{
+
+        x:{
+
+            ticks:{
+
+                font:{
+
+                    family:"Segoe UI",
+
+                    size:12
+
+                }
+
+            }
+
+        },
+
+
+        y:{
+
+            ticks:{
+
+                font:{
+
+                    family:"Segoe UI",
+
+                    size:13
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+    });
+
+}
+
+
+function calculateProgressStreak(data){
+
+    const days = {};
+
+
+    data.forEach(item=>{
+
+        if(item.count > 0){
+
+            let d = new Date(item.date);
+
+
+            const key =
+                d.getFullYear()
+                + "-"
+                + String(d.getMonth()+1).padStart(2,"0")
+                + "-"
+                + String(d.getDate()).padStart(2,"0");
+
+
+            days[key] = true;
+
+        }
+
+    });
+
+
+    let streak = 0;
+
+
+    let current = new Date();
+
+    current.setHours(0,0,0,0);
+
+
+
+    while(true){
+
+
+        const key =
+            current.getFullYear()
+            + "-"
+            + String(current.getMonth()+1).padStart(2,"0")
+            + "-"
+            + String(current.getDate()).padStart(2,"0");
+
+
+        if(days[key]){
+
+            streak++;
+
+            current.setDate(
+                current.getDate()-1
+            );
+
+        }
+        else{
+
+            break;
+
+        }
+
+    }
+
+
+    return streak;
+
+}
+
+
+
+
+
+
+
+
+
+function loadProgressMonths(){
+
+    cmbProgressMonth.innerHTML = "";
+
+    const months = [];
+
+    progressCache.forEach(item=>{
+
+        const key =
+            item.shamsiYear +
+            "/" +
+            String(item.shamsiMonth).padStart(2,"0");
+
+
+        if(!months.includes(key))
+            months.push(key);
+
+    });
+
+
+    months.sort();
+
+
+    months.forEach(key=>{
+
+        const parts = key.split("/");
+
+
+        const title =
+            parts[0] +
+            " / " +
+            parts[1];
+
+
+        cmbProgressMonth.innerHTML += `
+
+            <option value="${key}">
+
+                ${title}
+
+            </option>
+
+        `;
+
+    });
+
+
+    selectedProgressMonth =
+        cmbProgressMonth.value;
+
+}
+
+
+
+async function loadHeatmap2(){
+    showHeatmapSkeleton2()
+
+    if(heatmapCache2 == null){
+
+        const response =
+            await get("?action=heatmap2");
+
+        heatmapCache2 = response.data;
+
+    }
+
+
+    renderHeatmap2();
+
+
+    hideHeatmapSkeleton2()
+
+}
+
+
+
+
+
+function renderHeatmap2(){
+
+console.log("selectedProgressMonth =", selectedProgressMonth);
+
+console.log("heatmapCache2 =", heatmapCache2);
+
+
+
+    const container =
+    document.getElementById("heatmapContainer2");
+
+
+    container.innerHTML="";
+
+
+const filteredData =
+heatmapCache2.filter(item=>{
+
+    const shamsi =
+        new Intl.DateTimeFormat(
+            'en-US-u-ca-persian',
+            {
+                year:"numeric",
+                month:"numeric",
+                day:"numeric"
+            }
+        ).formatToParts(new Date(item.date));
+
+
+    let jy, jm;
+
+
+    shamsi.forEach(x=>{
+
+        if(x.type==="year")
+            jy = Number(x.value);
+
+        if(x.type==="month")
+            jm = Number(x.value);
+
+    });
+
+
+    const key =
+        jy +
+        "/" +
+        String(jm).padStart(2,"0");
+
+
+    return key === selectedProgressMonth;
+
+});
+
+
+console.log("filteredData =", filteredData);
+
+
+const parts =
+selectedProgressMonth.split("/");
+
+
+const fullData =
+fillMissingShamsiDays(
+    filteredData,
+    Number(parts[0]),
+    Number(parts[1])
+);
+
+
+fullData.forEach(item=>{
+
+
+    const date =
+    convertToShamsi(item.date);
+
+
+    const box =
+    document.createElement("div");
+
+
+    box.className="heatBox";
+
+
+    box.innerHTML = item.date;
+
+
+    box.title =
+    date + " : " + item.count + " words";
+
+
+    let level="";
+
+
+    if(item.count==0)
+
+        level="level0";
+
+    else if(item.count<10)
+
+        level="level1";
+
+    else if(item.count<30)
+
+        level="level2";
+
+    else if(item.count<50)
+
+        level="level3";
+
+    else
+
+        level="level4";
+
+
+    box.classList.add(level);
+
+
+    container.appendChild(box);
+
+
+});
+
 
 }
