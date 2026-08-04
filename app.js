@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/AKfycbzYyagnuYNN8LpT2qrh_eeH6idxC0geYNYbFzt3xl-gTp9bp2pLtxt-tigoSm_CRjgX/exec";
+const API = "https://script.google.com/macros/s/AKfycby_TVGFTGYUoPSZuzeRZL4NerjzJXg1iBqK46VvmN0ekH2fD0XewmPMqdEGjUIsvLZv/exec";
 
 console.log("APP JS LOADED");
 
@@ -1436,13 +1436,13 @@ function updateWord(type){
 
     // ثبت برای ذخیره گروهی
 
-    changedRows.push({
+    // changedRows.push({
 
-        row: w.row,
+    //     row: w.row,
 
-        stage: stage
+    //     stage: stage
 
-    });
+    // });
 
 
     // حذف از Stage فعلی
@@ -1464,6 +1464,14 @@ function updateWord(type){
     categoryData.stages[stage].total++;
 
     categoryData.stages[oldStage].ready--;
+
+    postNoWait({
+
+    action:"incrementStatistics",
+
+    count:1
+
+});
 
     renderStages();
 
@@ -3544,3 +3552,121 @@ fullData.forEach(item=>{
 
 
 }
+
+
+
+
+function sendStudyLog(){
+
+    fetch(
+        API + "?action=incrementStudy",
+        {
+            method:"GET"
+        }
+    )
+    .catch(err=>{
+
+        console.log(
+            "statistics send failed",
+            err
+        );
+
+    });
+
+}
+
+
+
+// function sendStatisticsUpdate(){
+
+//     fetch(
+//         API + "?action=incrementStatistics&count=1"
+//     )
+//     .catch(err=>{
+//         console.log("statistics send failed");
+//     });
+
+// }
+
+
+function postNoWait(data){
+
+    const form = new URLSearchParams();
+
+    Object.keys(data).forEach(key=>{
+
+        form.append(key,data[key]);
+
+    });
+
+
+    fetch(API,{
+
+        method:"POST",
+
+        body:form
+
+    })
+    .catch(err=>{
+
+        console.log("Statistics update failed", err);
+
+    });
+
+}
+
+
+
+
+
+const observer = new MutationObserver(() => {
+
+    const wordBox = document.querySelector(".correctWordText");
+
+    if (!wordBox) return;
+
+    // اگر قبلاً دکمه اضافه شده، دوباره اضافه نکن
+    if (wordBox.querySelector(".speak-btn")) return;
+
+    const btn = document.createElement("button");
+
+    btn.className = "speak-btn";
+    btn.innerHTML = "🔊";
+
+    btn.style.cssText = `
+        margin-left:10px;
+        border:none;
+        background:none;
+        cursor:pointer;
+        font-size:20px;
+    `;
+
+    btn.onclick = () => {
+
+        const word = wordBox.querySelector("b");
+
+        if (!word) return;
+
+        speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(
+            word.innerText.trim()
+        );
+
+        utterance.lang = "en-US";
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        speechSynthesis.speak(utterance);
+
+    };
+
+    wordBox.appendChild(btn);
+
+});
+
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
+});

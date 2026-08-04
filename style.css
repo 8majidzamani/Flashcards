@@ -2181,7 +2181,7 @@ to{
 
     outline:none;
 
-    border-color:#e43f83;
+    border-color:#07214c;
 
     box-shadow:
 
@@ -2199,7 +2199,7 @@ to{
 
     border-radius:16px;
 
-    background:#e43f83;
+    background:#07214c;
 
     color:white;
 
@@ -2703,7 +2703,7 @@ to{
 
 #btnLogin:hover{
 
-    background:#d2254b;
+    background:#055b58;
 
     transform:translateY(-2px);
 
