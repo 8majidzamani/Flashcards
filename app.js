@@ -1436,13 +1436,13 @@ function updateWord(type){
 
     // ثبت برای ذخیره گروهی
 
-    // changedRows.push({
+     changedRows.push({
 
-    //     row: w.row,
+         row: w.row,
 
-    //     stage: stage
+        stage: stage
 
-    // });
+     });
 
 
     // حذف از Stage فعلی
