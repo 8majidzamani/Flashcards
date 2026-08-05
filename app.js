@@ -5,6 +5,8 @@ console.log("APP JS LOADED");
 //======================================================
 // Global State
 //======================================================
+let streakCache = null;
+let categoryDataCache = {};
 let progressCache = null;
 
 let progressChart = null;
@@ -13,7 +15,7 @@ let heatmapCache2 = null;
 let selectedHeatmap2Month = "";
 
 
-let streakCache = null;
+
 let heatmapCache = null;
 
 
@@ -765,7 +767,7 @@ async function loadCategories(){
     });
 
 
-    await loadStreak();
+    loadStreak();
     hideCategoriesSkeleton();
     hideStreakSkeleton();
 
@@ -776,25 +778,51 @@ async function loadCategories(){
 //======================================================
 // Open Category
 //======================================================
-
-async function openCategory(category){
+async function openCategory(category, forceRefresh=false){
 
     currentCategory = category;
 
     categoryName.innerHTML = category;
 
     showStagesPage();
+
+
+    // 1) اول کش را چک کن
+    if(categoryDataCache[category] && !forceRefresh){
+
+        categoryData = categoryDataCache[category];
+
+        stageWords = {};
+
+        for(let i=0;i<=7;i++)
+            stageWords[i]=[];
+
+        categoryData.words.forEach(w=>{
+
+            stageWords[w.stage].push(w);
+
+        });
+
+        renderStages();
+
+        return;
+    }
+
+
+
+    // 2) اگر کش نبود، از سرور بگیر
     showStagesSkeleton();
     showSummarySkeleton();
 
-    const response = await get(
-        
 
+    const response = await get(
         "?action=categoryData&category=" +
         encodeURIComponent(category)
-
     );
+
+
     console.log(response);
+
 
     if(!response.success){
 
@@ -804,7 +832,15 @@ async function openCategory(category){
 
     }
 
+
+    // اینجا باید response را ذخیره کنیم
     categoryData = response;
+
+
+    // مهم: داخل کش هم ذخیره کن
+    categoryDataCache[category] = structuredClone(response);
+
+
 
     stageWords = {};
 
@@ -813,26 +849,26 @@ async function openCategory(category){
         stageWords[i] = [];
 
     }
-hideStagesSkeleton();
-hideSummarySkeleton();
+
+
     categoryData.words.forEach(w=>{
 
         if(!stageWords[w.stage])
 
-            stageWords[w.stage] = [];
+            stageWords[w.stage]=[];
 
         stageWords[w.stage].push(w);
 
     });
 
 
-
+    hideStagesSkeleton();
+    hideSummarySkeleton();
 
 
     renderStages();
 
 }
-
 
 
 // function showSummarySkeleton(){
@@ -1090,57 +1126,20 @@ stagesDiv.innerHTML += `
 //     await openCategory(currentCategory);
 
 // }
-async function move30(){
+function move30(){
 
-    const btn = document.getElementById("btnMove30");
+    const url =
+    "?action=move30&category=" +
+    encodeURIComponent(currentCategory);
 
-    btn.disabled = true;
 
-    btn.innerHTML = `
-    <div class="buttonLoader">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-`;
+    fetch(API + url)
+    .catch(err=>console.log(err));
 
-    try{
 
-        const res = await get(
-
-            "?action=move30&category=" +
-
-            encodeURIComponent(currentCategory)
-
-        );
-
-        if(!res.success){
-
-            alert("Move failed");
-
-            return;
-
-        }
-
-        await openCategory(currentCategory);
-
-    }
-    finally{
-
-        const newBtn = document.getElementById("btnMove30");
-
-        if(newBtn){
-
-            newBtn.disabled = false;
-
-            newBtn.innerHTML = "+ Add 30 Words";
-
-        }
-
-    }
+    openCategory(currentCategory,true);
 
 }
-
 
 //======================================================
 // Study Stage
@@ -1201,9 +1200,7 @@ function hideSaveLoading(){
 
 }
 
-
-
-async function saveWord(){
+function saveWord(){
 
     const front = txtFront.value.trim();
     const back = txtBack.value.trim();
@@ -1215,49 +1212,32 @@ async function saveWord(){
 
     }
 
-    showSaveLoading();
 
-    try{
+    const url =
+        API +
+        "?action=saveWord" +
+        "&category=" +
+        encodeURIComponent(cmbCategory.value) +
+        "&front=" +
+        encodeURIComponent(front) +
+        "&back=" +
+        encodeURIComponent(back);
 
-        const response = await get(
 
-            "?action=saveWord" +
+    fetch(url)
+    .catch(err=>{
 
-            "&category=" +
-            encodeURIComponent(cmbCategory.value) +
+        console.log("Save word failed:",err);
 
-            "&front=" +
-            encodeURIComponent(front) +
+    });
 
-            "&back=" +
-            encodeURIComponent(back),
 
-            false   // اگر get هم مثل post پارامتر useLoading دارد
-        );
+    saveMessage.innerHTML = "✅ Saved.";
 
-        if(response.success){
+    txtFront.value = "";
+    txtBack.value = "";
 
-            saveMessage.innerHTML = "✅ Saved.";
-
-            txtFront.value = "";
-            txtBack.value = "";
-
-            txtFront.focus();
-
-        }
-        else{
-
-            saveMessage.innerHTML =
-                "❌ " + response.message;
-
-        }
-
-    }
-    finally{
-
-        hideSaveLoading();
-
-    }
+    txtFront.focus();
 
 }
 //======================================================
@@ -2470,20 +2450,7 @@ function convertToShamsiDay(date){
 }
 
 
-async function loadStreak(){
-
-
-    if(streakCache==null){
-
-        const response =
-        await get("?action=statistics");
-
-
-        streakCache =
-        response.data;
-
-    }
-
+function loadStreak(){
 
     calculateStreak();
 
@@ -2664,17 +2631,33 @@ const result = await post({
 
 }, false);
 
-        if(result.success){
+if(result.success){
 
-            sessionStorage.setItem("logged","1");
+    console.log("LOGIN RESULT =", result);
 
-            showApp();
+    console.log("categories =", result.categories);
 
-            closeSidebar();
+    console.log("categoryData =", result.categoryData);
+    
+    sessionStorage.setItem("logged","1");
+    
+    categoriesCache = result.categories;
+    categoryDataCache = result.categoryData;
+    streakCache = result.streak;
+    console.log("STREAK CACHE =", streakCache);
 
-            loadCategories();
+    console.log("categoriesCache =", categoriesCache);
+    console.log("categoryDataCache =", categoryDataCache);
 
-        }
+
+    showApp();
+
+    closeSidebar();
+
+    renderCategories();
+    
+    loadStreak();
+}
         else{
 
             loginMessage.innerHTML =
@@ -2744,12 +2727,7 @@ txtUsername.onkeydown=function(e){
 
 if(sessionStorage.getItem("logged")){
 
-    showApp();
 
-    loadCategories();
-
-}
-else{
 
     showLogin();
 
@@ -3670,3 +3648,44 @@ observer.observe(document.body, {
     childList: true,
     subtree: true
 });
+
+
+
+
+
+
+
+function renderCategories(){
+
+    categoriesDiv.innerHTML = "";
+
+    cmbCategory.innerHTML = "";
+
+
+    categoriesCache.forEach(c=>{
+
+
+        categoriesDiv.innerHTML += `
+
+        <div class="cardItem"
+             onclick="openCategory('${c.category}')">
+
+            ${c.category}
+
+        </div>
+
+        `;
+
+
+        cmbCategory.innerHTML += `
+
+            <option value="${c.category}">
+                ${c.category}
+            </option>
+
+        `;
+
+
+    });
+
+}

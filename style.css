@@ -545,9 +545,11 @@ h2{
 
     padding:14px 16px;
 
-    font-size:18px;
+    font-size:28px;
 
     outline:none;
+        letter-spacing: 2px;
+
 
 }
 
@@ -659,21 +661,24 @@ h2{
 
 #btnKnow{
 
-    background:var(--success);
+    background: #86e0a7;
+    color: black;
 
 }
 
 
 #btnDontKnow{
 
-    background:var(--danger);
+        background: #ffb9b9;
+    color: black;
 
 }
 
 
 #btnMaster{
 
-    background:var(--warning);
+    background: #ffeccc;
+    color: black;
 
 }
 
@@ -3096,6 +3101,9 @@ to{
     color:#16a34a;
 
     font-weight:700;
+    font-size: 40px;
+    letter-spacing: 3px;
+
 
 }
 
