@@ -1331,12 +1331,20 @@ compareResult.innerHTML = "";
         wordCard.classList.remove("cardIncorrect");
         wordCard.classList.add("cardCorrect");
 
+        // تغییر رنگ دکمه‌ها
+        btnDontKnow.classList.add("answerWrong");
+        btnKnow.classList.remove("answerWrong");
+
+
     }
     else{
 
     result.innerHTML = "❌ Incorrect";
 
     result.className = "result incorrect";
+    
+    btnKnow.classList.add("answerWrong");
+    btnDontKnow.classList.remove("answerWrong");
 
     compareResult.innerHTML =
 
@@ -1528,6 +1536,8 @@ async function finishStudy(){
     await saveChanges();
 
     await openCategory(currentCategory);
+
+     await refreshStreakCache();
 
 }
 
@@ -3687,5 +3697,33 @@ function renderCategories(){
 
 
     });
+
+}
+
+
+
+
+async function refreshStreakCache(){
+
+    try{
+
+        const response = await get(
+            "?action=statistics"
+        );
+
+        if(response.success){
+
+            streakCache = response.data;
+
+            calculateStreak();
+
+        }
+
+    }
+    catch(err){
+
+        console.log("Refresh streak failed:", err);
+
+    }
 
 }

@@ -3494,3 +3494,8 @@ to{
     }
 
 }
+
+
+.answerWrong{
+    background:#d0d0d0 !important;
+}
