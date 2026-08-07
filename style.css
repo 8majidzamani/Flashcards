@@ -3090,7 +3090,7 @@ to{
 
 .correctWordText{
 
-    margin-top:20px;
+    padding-bottom:40px;
 
     font-size:20px;
 
@@ -3098,14 +3098,23 @@ to{
 
 .correctWordText b{
 
-    color:#16a34a;
+    color:#fc0202;
 
     font-weight:700;
     font-size: 40px;
     letter-spacing: 3px;
-
-
 }
+
+#CorrectGrenn b{
+
+    color:#13ba5d ; 
+
+    font-weight:700;
+    font-size: 40px;
+    letter-spacing: 3px;
+}
+
+
 
 .skeleton .streakIcon{
 

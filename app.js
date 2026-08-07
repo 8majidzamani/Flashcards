@@ -1324,7 +1324,18 @@ compareResult.innerHTML = "";
         result.className =
             "result correct";
 
-        correctWord.innerHTML = "";
+        correctWord.innerHTML = `
+<div class="correctWordBox">
+
+
+    <span class="correctWordText" id="CorrectGrenn">
+<b>
+        ${currentWords[currentIndex].Back}
+</b>
+    </span>
+
+</div>
+`;
         compareResult.innerHTML = "";
 
 
@@ -1346,11 +1357,8 @@ compareResult.innerHTML = "";
     btnKnow.classList.add("answerWrong");
     btnDontKnow.classList.remove("answerWrong");
 
-    compareResult.innerHTML =
-
-
-
-    buildCompare(
+     correctWord.innerHTML = ""
+    compareResult.innerHTML =  buildCompare(
 
         answer,
 
@@ -1358,11 +1366,16 @@ compareResult.innerHTML = "";
 
     );
 
+
+
+
     wordCard.classList.remove("cardCorrect");
     wordCard.classList.add("cardIncorrect");
 
 }
     reviewButtons.style.display = "grid";
+
+
 
 
 
@@ -3623,10 +3636,10 @@ const observer = new MutationObserver(() => {
 
     btn.style.cssText = `
         margin-left:10px;
-        border:none;
+        border:ridge;
         background:none;
         cursor:pointer;
-        font-size:20px;
+        font-size:40px;
     `;
 
     btn.onclick = () => {
